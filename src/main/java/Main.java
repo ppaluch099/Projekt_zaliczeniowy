@@ -12,7 +12,7 @@ public class Main extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader load = new FXMLLoader(this.getClass().getResource("/FXML/autorzy.fxml"));
+        FXMLLoader load = new FXMLLoader(this.getClass().getResource("/FXML/artysta.fxml"));
         AnchorPane aPane = load.load();
         Scene scene = new Scene(aPane);
         stage.setScene(scene);

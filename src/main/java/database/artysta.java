@@ -1,30 +1,27 @@
 package database;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 import java.sql.Date;
 
-public class autorzy {
-    private SimpleIntegerProperty Id_autora = new SimpleIntegerProperty(this, "id_autora");
+public class artysta {
+    private SimpleIntegerProperty Id_artysty = new SimpleIntegerProperty(this, "id_artysty");
     private SimpleStringProperty imie = new SimpleStringProperty(this, "imie");
     private SimpleStringProperty nazwisko = new SimpleStringProperty(this, "nazwisko");
     private ObjectProperty<Date> data_ur = new SimpleObjectProperty<>(this, "dara_ur");
     private SimpleStringProperty miejsce_ur = new SimpleStringProperty(this, "miejsce_ur");
     private SimpleIntegerProperty Id_stylu = new SimpleIntegerProperty(this, "Id_stylu");
 
-    public int getId_autora() {
-        return Id_autora.get();
+    public int getId_artysty() {
+        return Id_artysty.get();
     }
 
-    public SimpleIntegerProperty id_autoraProperty() {
-        return Id_autora;
+    public SimpleIntegerProperty id_artystyProperty() {
+        return Id_artysty;
     }
 
-    public void setId_autora(int id_autora) {
-        this.Id_autora.set(id_autora);
+    public void setId_artysty(int id_artysty) {
+        this.Id_artysty.set(id_artysty);
     }
 
     public String getImie() {

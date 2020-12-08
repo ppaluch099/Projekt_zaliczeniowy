@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.artysta_controller">
     <children>
-        <TableView fx:id="autorzy" prefHeight="400.0" prefWidth="600.0">
+        <TableView fx:id="ArtistsFX" prefHeight="400.0" prefWidth="600.0">
             <columns>
-                <TableColumn fx:id="id_autora" minWidth="100.0" prefWidth="75.0" text="Id_autora" />
+                <TableColumn fx:id="Id_artysty" minWidth="100.0" prefWidth="75.0" text="Id_artysty" />
                 <TableColumn fx:id="Imie" minWidth="100.0" prefWidth="75.0" text="Imie" />
                 <TableColumn fx:id="Nazwisko" minWidth="100.0" prefWidth="75.0" text="Nazwisko" />
                 <TableColumn fx:id="Data_ur" minWidth="100.0" prefWidth="75.0" text="Data_urodzenia" />
