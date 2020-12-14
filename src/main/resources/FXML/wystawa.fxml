@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="FXML.Wystawa"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.wystawa_controller">
+   <children>
+      <TableView fx:id="ExhibitionsFX" prefHeight="400.0" prefWidth="600.0">
+        <columns>
+          <TableColumn fx:id="Id_wystawy" prefWidth="75.0" text="Id_wystawy" />
+          <TableColumn fx:id="Nazwa" prefWidth="75.0" text="Nazwa" />
+            <TableColumn fx:id="Data_rozpoczecia" prefWidth="75.0" text="Data_rozpoczecia" />
+            <TableColumn fx:id="Data_zakonczenia" prefWidth="75.0" text="Data_zakonczenia" />
+            <TableColumn fx:id="Id_adresu" prefWidth="75.0" text="Id_adresu" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
 </AnchorPane>

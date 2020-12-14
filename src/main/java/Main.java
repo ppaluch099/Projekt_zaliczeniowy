@@ -16,7 +16,7 @@ public class Main extends Application{
         AnchorPane aPane = load.load();
         Scene scene = new Scene(aPane);
         stage.setScene(scene);
-        stage.setTitle("title");
+        stage.setTitle("Zarzadzanie galeriami");
         stage.show();
     }
 }

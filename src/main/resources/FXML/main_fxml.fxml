@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="anchor_main" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.main_controller">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.main_controller">
    <children>
       <MenuBar layoutX="-1.0" layoutY="-1.0" maxWidth="1.7976931348623157E308" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Tabela">
             <items>
-                  <MenuItem onAction="#Artists_menu" mnemonicParsing="false" text="Artysci" />
-                  <MenuItem onAction="#Country_menu" mnemonicParsing="false" text="Kraje" />
+                  <MenuItem mnemonicParsing="false" onAction="#Address_menu" text="Adres" />
+                  <MenuItem mnemonicParsing="false" onAction="#Artists_menu" text="Artysci" />
+                  <MenuItem mnemonicParsing="false" onAction="#Country_menu" text="Kraje" />
+                  <MenuItem mnemonicParsing="false" onAction="#Paintings_menu" text="Obrazy" />
+                  <MenuItem mnemonicParsing="false" onAction="#Style_menu" text="Style" />
+                  <MenuItem mnemonicParsing="false" onAction="#Exhibitions_menu" text="Wystawy" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem onAction="#close" mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
+      <Pane fx:id="view"layoutY="26.0" prefHeight="400.0" prefWidth="600.0" />
    </children>
 </AnchorPane>

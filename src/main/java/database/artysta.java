@@ -8,7 +8,7 @@ public class artysta {
     private SimpleIntegerProperty Id_artysty = new SimpleIntegerProperty(this, "id_artysty");
     private SimpleStringProperty imie = new SimpleStringProperty(this, "imie");
     private SimpleStringProperty nazwisko = new SimpleStringProperty(this, "nazwisko");
-    private ObjectProperty<Date> data_ur = new SimpleObjectProperty<>(this, "dara_ur");
+    private ObjectProperty<Date> data_ur = new SimpleObjectProperty<>(this, "data_ur");
     private SimpleStringProperty miejsce_ur = new SimpleStringProperty(this, "miejsce_ur");
     private SimpleIntegerProperty Id_stylu = new SimpleIntegerProperty(this, "Id_stylu");
 
