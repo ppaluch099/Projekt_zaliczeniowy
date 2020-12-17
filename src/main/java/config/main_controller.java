@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 public class main_controller {
 
     private Stage prime;
-
     public void setPrime(Stage primaryStage) {
         this.prime = primaryStage;
     }
@@ -81,6 +80,11 @@ public class main_controller {
         {
             case "artysta_menuitem" : add_controller.getAd().init_artysta();break;
             case "style_menuitem" : add_controller.getAd().init_style();break;
+            case "adres_menuitem" : add_controller.getAd().init_adres();break;
+            case "kraj_menuitem" : add_controller.getAd().init_kraj();break;
+            case "wystawa_menuitem" : add_controller.getAd().init_wystawa();break;
+            case "obrazy_menuitem" : add_controller.getAd().init_obrazy();break;
+
         }
     }
 
