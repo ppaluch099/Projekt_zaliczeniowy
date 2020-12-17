@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.main_controller">
-   <children>
-      <MenuBar layoutX="-1.0" layoutY="-1.0" maxWidth="1.7976931348623157E308" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Tabela">
-            <items>
-                  <MenuItem mnemonicParsing="false" onAction="#Address_menu" text="Adres" />
-                  <MenuItem mnemonicParsing="false" onAction="#Artists_menu" text="Artysci" />
-                  <MenuItem mnemonicParsing="false" onAction="#Country_menu" text="Kraje" />
-                  <MenuItem mnemonicParsing="false" onAction="#Paintings_menu" text="Obrazy" />
-                  <MenuItem mnemonicParsing="false" onAction="#Style_menu" text="Style" />
-                  <MenuItem mnemonicParsing="false" onAction="#Exhibitions_menu" text="Wystawy" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-              <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <Pane fx:id="view" layoutX="0" layoutY="26.0" prefHeight="400.0" prefWidth="600.0" />
-   </children>
+<AnchorPane fx:id="ap" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.main_controller">
+    <children>
+        <MenuBar layoutX="-1.0" layoutY="-1.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="600.0" AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="Tabela">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#Address_menu" text="Adres" />
+                        <MenuItem mnemonicParsing="false" onAction="#Artists_menu" text="Artysci" />
+                        <MenuItem mnemonicParsing="false" onAction="#Country_menu" text="Kraje" />
+                        <MenuItem mnemonicParsing="false" onAction="#Paintings_menu" text="Obrazy" />
+                        <MenuItem mnemonicParsing="false" onAction="#Style_menu" text="Style" />
+                        <MenuItem mnemonicParsing="false" onAction="#Exhibitions_menu" text="Wystawy" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Dodaj">
+                    <items>
+                        <MenuItem fx:id="artysta_menuitem" mnemonicParsing="false" userData="0" onAction="#add" text="Artysta" />
+                        <MenuItem fx:id="style_menuitem" mnemonicParsing="false" userData="1" onAction="#add" text="Style" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <Pane fx:id="view" layoutY="26.0" prefHeight="400.0" prefWidth="600.0" />
+    </children>
 </AnchorPane>
