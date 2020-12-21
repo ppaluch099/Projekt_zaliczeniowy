@@ -9,7 +9,7 @@
 
 <AnchorPane fx:id="ap" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.main_controller">
     <children>
-        <MenuBar layoutX="-1.0" layoutY="-1.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="600.0" AnchorPane.topAnchor="0.0">
+        <MenuBar layoutX="-1.0" layoutY="-1.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="700.0" AnchorPane.topAnchor="0.0">
             <menus>
                 <Menu mnemonicParsing="false" text="Tabela">
                     <items>
@@ -23,18 +23,8 @@
                         <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Dodaj">
-                    <items>
-                        <MenuItem fx:id="artysta_menuitem" mnemonicParsing="false" onAction="#add" text="Artysta" />
-                        <MenuItem fx:id="style_menuitem" mnemonicParsing="false" onAction="#add" text="Style" />
-                        <MenuItem fx:id="adres_menuitem" mnemonicParsing="false" onAction="#add" text="Adres" />
-                        <MenuItem fx:id="kraj_menuitem" mnemonicParsing="false" onAction="#add" text="Kraj" />
-                        <MenuItem fx:id="wystawa_menuitem" mnemonicParsing="false" onAction="#add" text="Wystawa" />
-                        <MenuItem fx:id="obrazy_menuitem" mnemonicParsing="false" onAction="#add" text="Obrazy" />
-                    </items>
-                </Menu>
             </menus>
         </MenuBar>
-        <Pane fx:id="view" layoutY="26.0" prefHeight="400.0" prefWidth="600.0" />
+        <Pane fx:id="view" layoutY="26.0" prefHeight="400.0" prefWidth="700.0" />
     </children>
 </AnchorPane>

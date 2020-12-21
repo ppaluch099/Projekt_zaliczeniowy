@@ -4,16 +4,26 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.style_controller">
    <children>
-      <TableView fx:id="StyleFX" prefHeight="400.0" prefWidth="600.0">
+      <TableView fx:id="StyleFX" prefHeight="400.0" prefWidth="700.0">
         <columns>
-          <TableColumn fx:id="Id_stylu" prefWidth="75.0" text="Id_stylu" />
-          <TableColumn fx:id="Nazwa_stylu" prefWidth="75.0" text="Nazwa_stylu" />
+          <TableColumn fx:id="Id_stylu" prefWidth="75.0" text="Id stylu" />
+          <TableColumn fx:id="Nazwa_stylu" prefWidth="75.0" text="Nazwa stylu" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
+          <contextMenu>
+              <ContextMenu>
+                  <items>
+                      <MenuItem fx:id="style_menuitem" mnemonicParsing="false" onAction="#add" text="Dodaj"/>
+                      <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="Usuń" />
+                  </items>
+              </ContextMenu>
+          </contextMenu>
       </TableView>
    </children>
 </AnchorPane>

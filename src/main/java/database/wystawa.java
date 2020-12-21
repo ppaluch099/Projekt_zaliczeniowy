@@ -12,7 +12,7 @@ public class wystawa {
     private SimpleStringProperty Nazwa = new SimpleStringProperty();
     private SimpleObjectProperty<Date> Data_rozpoczecia= new SimpleObjectProperty<>();
     private SimpleObjectProperty<Date> Data_zakonczenia= new SimpleObjectProperty<>();
-    private SimpleIntegerProperty Id_adresu = new SimpleIntegerProperty();
+    private SimpleStringProperty Nazwa_galerii = new SimpleStringProperty();
 
     public int getId_wystawy() {
         return Id_wystawy.get();
@@ -62,15 +62,16 @@ public class wystawa {
         this.Data_zakonczenia.set(data_zakonczenia);
     }
 
-    public int getId_adresu() {
-        return Id_adresu.get();
+    public String getNazwa_galerii() {
+        return Nazwa_galerii.get();
     }
 
-    public SimpleIntegerProperty id_adresuProperty() {
-        return Id_adresu;
+    public SimpleStringProperty nazwa_galeriiProperty() {
+        return Nazwa_galerii;
     }
 
-    public void setId_adresu(int id_adresu) {
-        this.Id_adresu.set(id_adresu);
+    public void setNazwa_galerii(String nazwa_galerii) {
+        this.Nazwa_galerii.set(nazwa_galerii);
     }
+
 }

@@ -8,7 +8,7 @@ public class obrazy {
     private SimpleIntegerProperty Rok = new SimpleIntegerProperty();
     private SimpleStringProperty Tytul = new SimpleStringProperty();
     private SimpleStringProperty Opis = new SimpleStringProperty();
-    private SimpleIntegerProperty Id_artysty = new SimpleIntegerProperty();
+    private SimpleStringProperty Imie_Nazwisko = new SimpleStringProperty();
 
     public int getId_obrazu() {
         return Id_obrazu.get();
@@ -58,15 +58,15 @@ public class obrazy {
         this.Opis.set(opis);
     }
 
-    public int getId_artysty() {
-        return Id_artysty.get();
+    public String getImie_Nazwisko() {
+        return Imie_Nazwisko.get();
     }
 
-    public SimpleIntegerProperty id_artystyProperty() {
-        return Id_artysty;
+    public SimpleStringProperty imie_NazwiskoProperty() {
+        return Imie_Nazwisko;
     }
 
-    public void setId_artysty(int id_artysty) {
-        this.Id_artysty.set(id_artysty);
+    public void setImie_Nazwisko(String imie_Nazwisko) {
+        this.Imie_Nazwisko.set(imie_Nazwisko);
     }
 }

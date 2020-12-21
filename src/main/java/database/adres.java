@@ -7,7 +7,7 @@ public class adres {
     private SimpleIntegerProperty Id_adresu = new SimpleIntegerProperty();
     private SimpleStringProperty Nazwa_galerii = new SimpleStringProperty();
     private SimpleStringProperty Miasto = new SimpleStringProperty();
-    private SimpleIntegerProperty Id_kraju = new SimpleIntegerProperty();
+    private SimpleStringProperty Nazwa_kraju = new SimpleStringProperty();
 
     public int getId_adresu() {
         return Id_adresu.get();
@@ -45,15 +45,15 @@ public class adres {
         this.Miasto.set(miasto);
     }
 
-    public int getId_kraju() {
-        return Id_kraju.get();
+    public String getNazwa_kraju() {
+        return Nazwa_kraju.get();
     }
 
-    public SimpleIntegerProperty id_krajuProperty() {
-        return Id_kraju;
+    public SimpleStringProperty nazwa_krajuProperty() {
+        return Nazwa_kraju;
     }
 
-    public void setId_kraju(int id_kraju) {
-        this.Id_kraju.set(id_kraju);
+    public void setNazwa_kraju(String nazwa_kraju) {
+        this.Nazwa_kraju.set(nazwa_kraju);
     }
 }

@@ -5,14 +5,22 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.kraj_controller">
    <children>
-      <TableView fx:id="KrajFX" prefHeight="400.0" prefWidth="600.0">
+      <TableView fx:id="KrajFX" prefHeight="400.0" prefWidth="700.0">
         <columns>
-          <TableColumn fx:id="Id_kraju" prefWidth="75.0" text="Id_kraju" />
-          <TableColumn fx:id="Nazwa_kraju" prefWidth="75.0" text="Nazwa_kraju" />
+          <TableColumn fx:id="Id_kraju" prefWidth="75.0" text="Id kraju" />
+          <TableColumn fx:id="Nazwa_kraju" prefWidth="75.0" text="Nazwa kraju" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
+          <contextMenu>
+              <ContextMenu>
+                  <items>
+                      <MenuItem fx:id="kraj_menuitem" mnemonicParsing="false" onAction="#add" text="Dodaj"/>
+                      <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="Usuń" />
+                  </items>
+              </ContextMenu>
+          </contextMenu>
       </TableView>
    </children>
 </AnchorPane>

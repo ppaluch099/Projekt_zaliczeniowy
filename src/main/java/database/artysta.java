@@ -10,7 +10,7 @@ public class artysta {
     private SimpleStringProperty nazwisko = new SimpleStringProperty(this, "nazwisko");
     private ObjectProperty<Date> data_ur = new SimpleObjectProperty<>(this, "data_ur");
     private SimpleStringProperty miejsce_ur = new SimpleStringProperty(this, "miejsce_ur");
-    private SimpleIntegerProperty Id_stylu = new SimpleIntegerProperty(this, "Id_stylu");
+    private SimpleStringProperty Nazwa_stylu = new SimpleStringProperty(this, "Nazwa_stylu");
 
     public int getId_artysty() {
         return Id_artysty.get();
@@ -72,15 +72,15 @@ public class artysta {
         this.miejsce_ur.set(miejsce_ur);
     }
 
-    public int getId_stylu() {
-        return Id_stylu.get();
+    public String getNazwa_stylu() {
+        return Nazwa_stylu.get();
     }
 
-    public SimpleIntegerProperty id_styluProperty() {
-        return Id_stylu;
+    public SimpleStringProperty nazwa_styluProperty() {
+        return Nazwa_stylu;
     }
 
-    public void setId_stylu(int id_stylu) {
-        this.Id_stylu.set(id_stylu);
+    public void setNazwa_stylu(String nazwa_stylu) {
+        this.Nazwa_stylu.set(nazwa_stylu);
     }
 }
