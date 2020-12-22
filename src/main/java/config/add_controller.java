@@ -2,10 +2,12 @@ package config;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -36,6 +38,8 @@ public class add_controller{
     public ComboBox combo = new ComboBox();
     public Label label;
     public String x;
+    public ListView<Integer> id = new ListView<>();
+    public PreparedStatement prSt;
 
     public void init_style(){
         label = new Label("Nazwa stylu");
@@ -136,6 +140,24 @@ public class add_controller{
         }
         grid_pane.add(label,0,3);
         grid_pane.add(combo,1,3);
+        label = new Label("Obrazy");
+        rs = conn.createStatement().executeQuery("SELECT Id_obrazu, Tytul FROM obrazy");
+        ListView<String> listView = new ListView();
+        while (rs.next()) {
+            listView.getItems().addAll(rs.getString("Tytul"));
+            id.getItems().addAll(rs.getInt("Id_obrazu"));
+            }
+        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        id.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                int z = listView.getSelectionModel().getSelectedIndex();
+                id.getSelectionModel().select(z);
+            }
+        });
+        grid_pane.add(label,0,4);
+        grid_pane.add(listView,1,4);
         x = "wystawa_menuitem";
     }
 
@@ -164,9 +186,28 @@ public class add_controller{
             }
             conn.createStatement().executeUpdate(refresh);
             int z = conn.createStatement().executeUpdate(query);
-            int x = 0;
-            if(z>0) x=1;
-            dialog(x);
+            if (x=="wystawa_menuitem") {
+                ResultSet idWys = conn.createStatement().executeQuery("SELECT Id_wystawy FROM wystawa WHERE Nazwa=\"" + a.getText() + "\"");
+                int wynik = 0;
+                while (idWys.next()) {
+                    wynik = idWys.getInt(1);
+                }
+                prSt = conn.prepareStatement("INSERT INTO wystawa_pom VALUES("+ wynik +", ?)");
+                ObservableList ls;
+                ls = id.getSelectionModel().getSelectedItems();
+                ls.forEach(e -> {
+                    try {
+                        prSt.setString(1, String.valueOf(e));
+                        prSt.addBatch();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                });
+                prSt.executeBatch();
+            }
+            int dia = 0;
+            if(z>0) dia=1;
+            dialog(dia);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

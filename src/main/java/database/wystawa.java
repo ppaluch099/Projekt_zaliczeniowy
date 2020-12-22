@@ -3,6 +3,7 @@ package database;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.ComboBox;
 
 import java.sql.Date;
 
@@ -13,6 +14,7 @@ public class wystawa {
     private SimpleObjectProperty<Date> Data_rozpoczecia= new SimpleObjectProperty<>();
     private SimpleObjectProperty<Date> Data_zakonczenia= new SimpleObjectProperty<>();
     private SimpleStringProperty Nazwa_galerii = new SimpleStringProperty();
+    private ComboBox Tytul = new ComboBox();
 
     public int getId_wystawy() {
         return Id_wystawy.get();
@@ -74,4 +76,11 @@ public class wystawa {
         this.Nazwa_galerii.set(nazwa_galerii);
     }
 
+    public ComboBox getTytul() {
+        return Tytul;
+    }
+
+    public void setTytul(ComboBox tytul) {
+        Tytul = tytul;
+    }
 }

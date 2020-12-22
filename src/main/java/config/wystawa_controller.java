@@ -8,8 +8,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -50,15 +52,24 @@ public class wystawa_controller implements Initializable {
             String query = "SELECT * FROM wystawa INNER JOIN adres_wystawy ON wystawa.Id_adresu=adres_wystawy.Id_adresu";
             conn = dbConnect.getConnection();
             ResultSet set = conn.createStatement().executeQuery(query);
-            //ResultSet obrazy = conn.createStatement().executeQuery("SELECT Tytul FROM obrazy INNER JOIN wystawa_pom ON obrazy.ID_obrazu=wystawa_pom.Id_obrazu INNER JOIN wystawa ON wystawa_pom.Id_wystawy=wystawa.Id_wystawy");
-
+            int id;
+            ResultSet obrazy;
             while (set.next()) {
                 wystawa wys = new wystawa();
                 wys.setId_wystawy(set.getInt("Id_wystawy"));
+                id = Integer.valueOf(set.getInt("Id_wystawy"));
+                obrazy = conn.createStatement().executeQuery("SELECT Tytul FROM obrazy INNER JOIN wystawa_pom ON obrazy.ID_obrazu=wystawa_pom.Id_obrazu INNER JOIN wystawa ON wystawa_pom.Id_wystawy=wystawa.Id_wystawy WHERE wystawa_pom.Id_wystawy=" + id);
                 wys.setNazwa(set.getString("Nazwa"));
                 wys.setData_rozpoczecia(set.getDate("Data_rozpoczecia"));
                 wys.setData_zakonczenia(set.getDate("Data_zakonczenia"));
                 wys.setNazwa_galerii(set.getString("Nazwa_galerii"));
+                while (obrazy.next()) {
+                    wys.getTytul().getItems().addAll(obrazy.getString("Tytul"));
+                }
+                wys.getTytul().getSelectionModel().selectFirst();
+                if(wys.getTytul().getSelectionModel().isEmpty()){
+                    wys.getTytul().setVisible(false);
+                }
                 list.add(wys);
             }
 
@@ -67,6 +78,7 @@ public class wystawa_controller implements Initializable {
             Data_rozpoczecia.setCellValueFactory(new PropertyValueFactory<>("Data_rozpoczecia"));
             Data_zakonczenia.setCellValueFactory(new PropertyValueFactory<>("Data_zakonczenia"));
             Nazwa_galerii.setCellValueFactory(new PropertyValueFactory<>("Nazwa_galerii"));
+            Tytul.setCellValueFactory(new PropertyValueFactory<>("Tytul"));
 
             ExhibitionsFX.setItems(list);
         } catch (SQLException throwables) {
