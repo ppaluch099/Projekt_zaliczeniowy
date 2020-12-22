@@ -13,6 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class artysta_controller implements Initializable {
@@ -68,6 +70,7 @@ public class artysta_controller implements Initializable {
             Nazwa_stylu.setCellValueFactory(new PropertyValueFactory<>("Nazwa_stylu"));
 
             ArtistsFX.setItems(list);
+            ArtistsFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -78,21 +81,24 @@ public class artysta_controller implements Initializable {
         mc.add(actionEvent);
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException {
-        if (ArtistsFX.getSelectionModel().getSelectedItem() != null) {
-            try {
-                int selected = ArtistsFX.getSelectionModel().getSelectedItem().getId_artysty();
-                String delQuery = "DELETE FROM artysta WHERE Id_artysty = ?";
-                PreparedStatement stmt = conn.prepareStatement(delQuery);
-                stmt.setString(1, String.valueOf(selected));
-                stmt.executeUpdate();
-                int index = ArtistsFX.getSelectionModel().getSelectedIndex();
-                list.remove(index);
-                String refresh = "ALTER TABLE artysta AUTO_INCREMENT=1";
-                conn.createStatement().executeUpdate(refresh);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+    public void delete(ActionEvent actionEvent) throws IOException,SQLException {
+        if (!ArtistsFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            ObservableList selected = ArtistsFX.getSelectionModel().getSelectedIndices();
+            String delQuery = "DELETE FROM artysta WHERE Id_artysty = ?";
+            PreparedStatement stmt = conn.prepareStatement(delQuery);
+            selected.forEach(e -> {
+                try {
+                    stmt.setString(1, String.valueOf(ArtistsFX.getColumns().get(0).getCellObservableValue((Integer) e).getValue()));
+                    stmt.addBatch();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
+            stmt.executeBatch();
+            List removal = new ArrayList(ArtistsFX.getSelectionModel().getSelectedItems());
+            list.removeAll(removal);
+            String refresh = "ALTER TABLE artysta AUTO_INCREMENT=1";
+            conn.createStatement().executeUpdate(refresh);
         } else {
             main_controller mc = new main_controller();
             mc.empty_row_dialog();

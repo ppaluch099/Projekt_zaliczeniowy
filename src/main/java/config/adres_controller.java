@@ -16,6 +16,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class adres_controller implements Initializable {
@@ -63,6 +65,7 @@ public class adres_controller implements Initializable {
             Nazwa_kraju.setCellValueFactory(new PropertyValueFactory<>("Nazwa_kraju"));
 
             AddressFX.setItems(list);
+            AddressFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -73,22 +76,27 @@ public class adres_controller implements Initializable {
         mc.add(actionEvent);
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException {
-        if (AddressFX.getSelectionModel().getSelectedItem() != null) {
-            try {
-                int selected = AddressFX.getSelectionModel().getSelectedItem().getId_adresu();
+    public void delete(ActionEvent actionEvent) throws IOException, SQLException {
+        if (!AddressFX.getSelectionModel().getSelectedItems().isEmpty()) {
+                ObservableList selected = AddressFX.getSelectionModel().getSelectedIndices();
                 String delQuery = "DELETE FROM adres_wystawy WHERE Id_adresu = ?";
                 PreparedStatement stmt = conn.prepareStatement(delQuery);
-                stmt.setString(1, String.valueOf(selected));
-                stmt.executeUpdate();
-                int index = AddressFX.getSelectionModel().getSelectedIndex();
-                list.remove(index);
+                selected.forEach(e -> {
+                    try {
+                        stmt.setString(1, String.valueOf(AddressFX.getColumns().get(0).getCellObservableValue((Integer) e).getValue()));
+                        stmt.addBatch();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                });
+                stmt.executeBatch();
+                List removal = new ArrayList(AddressFX.getSelectionModel().getSelectedItems());
+                list.removeAll(removal);
+                AddressFX.getSelectionModel().clearSelection();
                 String refresh = "ALTER TABLE adres_wystawy AUTO_INCREMENT=1";
                 conn.createStatement().executeUpdate(refresh);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
             }
-        } else {
+         else {
             main_controller mc = new main_controller();
             mc.empty_row_dialog();
         }

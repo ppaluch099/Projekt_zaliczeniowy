@@ -8,15 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class wystawa_controller implements Initializable {
@@ -81,6 +79,7 @@ public class wystawa_controller implements Initializable {
             Tytul.setCellValueFactory(new PropertyValueFactory<>("Tytul"));
 
             ExhibitionsFX.setItems(list);
+            ExhibitionsFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -91,21 +90,24 @@ public class wystawa_controller implements Initializable {
         mc.add(actionEvent);
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException {
-        if (ExhibitionsFX.getSelectionModel().getSelectedItem() != null) {
-            try {
-                int selected = ExhibitionsFX.getSelectionModel().getSelectedItem().getId_wystawy();
-                String delQuery = "DELETE FROM wystawa WHERE Id_wystawy = ?";
-                PreparedStatement stmt = conn.prepareStatement(delQuery);
-                stmt.setString(1, String.valueOf(selected));
-                stmt.executeUpdate();
-                int index = ExhibitionsFX.getSelectionModel().getSelectedIndex();
-                list.remove(index);
-                String refresh = "ALTER TABLE wystawa AUTO_INCREMENT=1";
-                conn.createStatement().executeUpdate(refresh);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+    public void delete(ActionEvent actionEvent) throws IOException, SQLException {
+        if (!ExhibitionsFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            ObservableList selected = ExhibitionsFX.getSelectionModel().getSelectedIndices();
+            String delQuery = "DELETE FROM wystawa WHERE Id_wystawy = ?";
+            PreparedStatement stmt = conn.prepareStatement(delQuery);
+            selected.forEach(e -> {
+                try {
+                    stmt.setString(1,String.valueOf(ExhibitionsFX.getColumns().get(0).getCellObservableValue((Integer) e).getValue()));
+                    stmt.addBatch();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
+            stmt.executeBatch();
+            List removal = ExhibitionsFX.getSelectionModel().getSelectedItems();
+            list.remove(removal);
+            String refresh = "ALTER TABLE wystawa AUTO_INCREMENT=1";
+            conn.createStatement().executeUpdate(refresh);
         }
         else {
             main_controller mc = new main_controller();

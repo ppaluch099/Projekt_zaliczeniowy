@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class obrazy_controller implements Initializable {
@@ -68,6 +70,7 @@ public class obrazy_controller implements Initializable {
             Imie_Nazwisko.setCellValueFactory(new PropertyValueFactory<>("Imie_Nazwisko"));
 
             PaintingsFX.setItems(list);
+            PaintingsFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -78,21 +81,25 @@ public class obrazy_controller implements Initializable {
         mc.add(actionEvent);
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException {
-        if (PaintingsFX.getSelectionModel().getSelectedItem() != null) {
-            try {
-                int selected = PaintingsFX.getSelectionModel().getSelectedItem().getId_obrazu();
-                String delQuery = "DELETE FROM obrazy WHERE Id_obrazu = ?";
-                PreparedStatement stmt = conn.prepareStatement(delQuery);
-                stmt.setString(1, String.valueOf(selected));
-                stmt.executeUpdate();
-                int index = PaintingsFX.getSelectionModel().getSelectedIndex();
-                list.remove(index);
-                String refresh = "ALTER TABLE obrazy AUTO_INCREMENT=1";
-                conn.createStatement().executeUpdate(refresh);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+    public void delete(ActionEvent actionEvent) throws IOException,SQLException {
+        if (!PaintingsFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            ObservableList selected = PaintingsFX.getSelectionModel().getSelectedIndices();
+            String delQuery = "DELETE FROM obrazy WHERE Id_obrazu = ?";
+            PreparedStatement stmt = conn.prepareStatement(delQuery);
+            selected.forEach(e -> {
+                try {
+                    stmt.setString(1,String.valueOf(PaintingsFX.getColumns().get(0).getCellObservableValue((Integer) e).getValue()));
+                    stmt.addBatch();
+                }
+                catch (SQLException throwables){
+                    throwables.printStackTrace();
+                }
+            });
+            stmt.executeBatch();
+            List removal = PaintingsFX.getSelectionModel().getSelectedItems();
+            list.removeAll(removal);
+            String refresh = "ALTER TABLE obrazy AUTO_INCREMENT=1";
+            conn.createStatement().executeUpdate(refresh);
         }
         else {
             main_controller mc = new main_controller();

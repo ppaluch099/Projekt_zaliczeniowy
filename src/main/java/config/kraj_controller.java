@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class kraj_controller implements Initializable {
@@ -55,6 +57,7 @@ public class kraj_controller implements Initializable {
             Nazwa_kraju.setCellValueFactory(new PropertyValueFactory<>("Nazwa_kraju"));
 
             KrajFX.setItems(list);
+            KrajFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -65,21 +68,24 @@ public class kraj_controller implements Initializable {
         mc.add(actionEvent);
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException {
-        if (KrajFX.getSelectionModel().getSelectedItem() != null) {
-            try {
-                int selected = KrajFX.getSelectionModel().getSelectedItem().getId_kraju();
+    public void delete(ActionEvent actionEvent) throws IOException, SQLException {
+        if (!KrajFX.getSelectionModel().getSelectedItems().isEmpty()) {
+                ObservableList selected = KrajFX.getSelectionModel().getSelectedIndices();
                 String delQuery = "DELETE FROM kraje WHERE Id_kraju = ?";
                 PreparedStatement stmt = conn.prepareStatement(delQuery);
-                stmt.setString(1, String.valueOf(selected));
-                stmt.executeUpdate();
-                int index = KrajFX.getSelectionModel().getSelectedIndex();
-                list.remove(index);
+                selected.forEach(e -> {
+                    try {
+                        stmt.setString(1, String.valueOf(KrajFX.getColumns().get(0).getCellObservableValue((Integer) e).getValue()));
+                        stmt.addBatch();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                });
+                stmt.executeBatch();
+                List removal = new ArrayList(KrajFX.getSelectionModel().getSelectedItems());
+                list.removeAll(removal);
                 String refresh = "ALTER TABLE kraje AUTO_INCREMENT=1";
                 conn.createStatement().executeUpdate(refresh);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
         }
         else {
             main_controller mc = new main_controller();

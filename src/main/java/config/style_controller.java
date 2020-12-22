@@ -6,16 +6,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import javax.swing.text.Style;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class style_controller implements Initializable {
@@ -55,6 +58,7 @@ public class style_controller implements Initializable {
             Nazwa_stylu.setCellValueFactory(new PropertyValueFactory<>("Nazwa_stylu"));
 
             StyleFX.setItems(list);
+            StyleFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -65,23 +69,26 @@ public class style_controller implements Initializable {
         mc.add(actionEvent);
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException {
-        if(StyleFX.getSelectionModel().getSelectedItem() != null) {
-        try {
-            int selected = StyleFX.getSelectionModel().getSelectedItem().getId_stylu();
+    public void delete(ActionEvent actionEvent) throws IOException, SQLException {
+        if(!StyleFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            ObservableList selected = StyleFX.getSelectionModel().getSelectedIndices();
             String delQuery = "DELETE FROM style WHERE Id_stylu = ?";
             PreparedStatement stmt = conn.prepareStatement(delQuery);
-            stmt.setString(1, String.valueOf(selected));
-            stmt.executeUpdate();
-            int index = StyleFX.getSelectionModel().getSelectedIndex();
-            list.remove(index);
+            selected.forEach(e -> {
+                try {
+                    stmt.setString(1,String.valueOf(StyleFX.getColumns().get(0).getCellObservableValue((Integer) e).getValue()));
+                    stmt.addBatch();
+                }
+                catch (SQLException throwables){
+                    throwables.printStackTrace();
+                }
+            });
+            stmt.executeBatch();
+            List removal = StyleFX.getSelectionModel().getSelectedItems();
+            list.removeAll(removal);
             String refresh = "ALTER TABLE style AUTO_INCREMENT=1";
             conn.createStatement().executeUpdate(refresh);
         }
-        catch (SQLException ex){
-            ex.printStackTrace();
-        }
-    }
         else {
             main_controller mc = new main_controller();
             mc.empty_row_dialog();
