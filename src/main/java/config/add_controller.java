@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -212,7 +214,7 @@ public class add_controller{
             throwables.printStackTrace();
         }
     }
-    public void dialog(int x) {
+    private void dialog(int x) {
         Dialog<String> dialog = new Dialog<>();
         if(x==1){
             dialog.setTitle("Success");
@@ -221,7 +223,7 @@ public class add_controller{
         }
         else {
             dialog.setTitle("Failure");
-            dialog.setContentText("Operacja nie powiodło się");
+            dialog.setContentText("Operacja nie powiodła się");
         }
         ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(type);

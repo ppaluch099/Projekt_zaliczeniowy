@@ -23,6 +23,7 @@
               <items>
                   <MenuItem fx:id="adres_menuitem" mnemonicParsing="false" onAction="#add" text="Dodaj" />
                 <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="Usuń" />
+                  <MenuItem fx:id="edit" mnemonicParsing="false" onAction="#edit" text="Edytuj" />
               </items>
             </ContextMenu>
          </contextMenu>

@@ -7,6 +7,7 @@ import javafx.fxml.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -23,9 +24,7 @@ public class main_controller {
     @FXML
     private Pane view;
     @FXML
-    public MenuItem artysta_menuitem;
-    @FXML
-    public MenuItem style_menuitem;
+    public HBox main_hbox;
 
     public void Artists_menu(javafx.event.ActionEvent actionEvent) throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/artysta.fxml"));
@@ -37,7 +36,7 @@ public class main_controller {
         view.getChildren().setAll(pane);
     }
 
-    public void Address_menu(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void Address_menu() throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/adres.fxml"));
         view.getChildren().setAll(pane);
     }
@@ -79,6 +78,20 @@ public class main_controller {
         }
     }
 
+    public void edit(ActionEvent actionEvent, String[] adres) throws IOException, SQLException {
+        FXMLLoader load = new FXMLLoader(this.getClass().getResource("/FXML/edit.fxml"));
+        AnchorPane root2 = load.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(prime);
+        stage.setScene(new Scene(root2));
+        stage.show();
+        String value = actionEvent.getSource().toString();
+        String x = value.substring(12,value.indexOf(','));
+        stage.setTitle("Edytuj adres");
+        edit_controller.getEd().init_adres(adres);
+    }
+
     public void empty_row_dialog(){
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Błąd");
@@ -86,6 +99,11 @@ public class main_controller {
         ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(type);
         dialog.showAndWait();
+    }
+
+    public void hid(ActionEvent actionEvent) {
+//        main_hbox.managedProperty().bind(main_hbox.visibleProperty());
+//        if(main_hbox)
     }
 
     public void close(ActionEvent actionEvent) {

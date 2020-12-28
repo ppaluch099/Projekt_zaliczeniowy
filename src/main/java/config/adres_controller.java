@@ -43,7 +43,7 @@ public class adres_controller implements Initializable {
         populate();
     }
 
-    private void populate() {
+    public void populate() {
         try {
             list = FXCollections.observableArrayList();
             String query = "SELECT * FROM adres_wystawy INNER JOIN kraje ON adres_wystawy.Id_kraju=kraje.Id_kraju";
@@ -100,5 +100,13 @@ public class adres_controller implements Initializable {
             main_controller mc = new main_controller();
             mc.empty_row_dialog();
         }
+    }
+    public void edit(ActionEvent actionEvent) throws IOException, SQLException {
+        main_controller mc = new main_controller();
+        String[] arr = {String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getId_adresu()),
+                String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getNazwa_galerii()),
+                String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getMiasto()),
+                String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getNazwa_kraju())};
+        mc.edit(actionEvent, arr);
     }
 }
