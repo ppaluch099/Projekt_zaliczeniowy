@@ -48,7 +48,7 @@ public class kraj_controller implements Initializable {
     private void populate() {
         try {
             list = FXCollections.observableArrayList();
-            String query = "SELECT * from kraje";
+            String query = "SELECT * from kraje GROUP BY Nazwa_kraju";
             conn = dbConnect.getConnection();
             ResultSet set = conn.createStatement().executeQuery(query);
 
@@ -82,7 +82,19 @@ public class kraj_controller implements Initializable {
 
     public void add(ActionEvent actionEvent) throws IOException, SQLException {
         main_controller mc = new main_controller();
+        add_controller ad = new add_controller();
         mc.add(actionEvent);
+        time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (ad.refBool()) {
+                    refresh();
+                    time.stop();
+                }
+            }
+        }));
+        time.setCycleCount(Timeline.INDEFINITE);
+        time.play();
     }
 
     public void delete(ActionEvent actionEvent) throws IOException, SQLException {

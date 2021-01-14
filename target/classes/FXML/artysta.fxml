@@ -11,8 +11,8 @@
         <TableView fx:id="ArtistsFX" prefHeight="400.0" prefWidth="1000.0">
             <columns>
                 <TableColumn fx:id="Id_artysty" text="Id artysty" visible="false"/>
-                <TableColumn fx:id="Imie" text="Imie" />
                 <TableColumn fx:id="Nazwisko" text="Nazwisko" />
+                <TableColumn fx:id="Imie" text="Imie" />
                 <TableColumn fx:id="Data_ur" text="Data urodzenia" />
                 <TableColumn fx:id="Miejsce_ur" text="Miejsce urodzenia" />
                 <TableColumn fx:id="Nazwa_stylu" text="Nazwa stylu" />

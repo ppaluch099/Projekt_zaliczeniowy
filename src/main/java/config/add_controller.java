@@ -72,6 +72,7 @@ public class add_controller{
         grid_pane.add(label,0,0);
         grid_pane.add(a,1,0);
         x = "style_menuitem";
+        bool = false;
     }
     public void init_artysta() throws SQLException{
         label = new Label("Imie");
@@ -97,6 +98,7 @@ public class add_controller{
         grid_pane.add(label,0,4);
         grid_pane.add(combo,1,4);
         x = "artysta_menuitem";
+        bool = false;
     }
     public void init_adres() throws SQLException{
         label = new Label("Nazwa galerii");
@@ -114,6 +116,7 @@ public class add_controller{
         grid_pane.add(label,0,2);
         grid_pane.add(combo,1,2);
         x = "adres_menuitem";
+        bool = false;
     }
 
     public void init_kraj(){
@@ -122,6 +125,7 @@ public class add_controller{
         grid_pane.add(label,0,0);
         grid_pane.add(a,1,0);
         x = "kraj_menuitem";
+        bool = false;
     }
     public void init_obrazy() throws SQLException{
         label = new Label("Rok");
@@ -142,6 +146,7 @@ public class add_controller{
         grid_pane.add(label,0,3);
         grid_pane.add(combo,1,3);
         x = "obrazy_menuitem";
+        bool = false;
     }
     public void init_wystawa() throws SQLException{
         label = new Label("Nazwa");
@@ -179,6 +184,7 @@ public class add_controller{
         grid_pane.add(label,0,4);
         grid_pane.add(listView,1,4);
         x = "wystawa_menuitem";
+        bool = false;
     }
 
     @FXML
@@ -245,6 +251,7 @@ public class add_controller{
             dialog.setTitle("Success");
             dialog.setContentText("Operacja powiodła się");
             grid_pane.getScene().getWindow().hide();
+            bool = true;
         }
         else {
             dialog.setTitle("Failure");

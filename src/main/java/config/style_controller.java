@@ -1,9 +1,12 @@
 package config;
 
 import database.style;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
@@ -12,6 +15,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.util.Duration;
 
 import javax.swing.text.Style;
 import java.io.IOException;
@@ -45,7 +49,7 @@ public class style_controller implements Initializable {
     private void populate() {
         try {
             list = FXCollections.observableArrayList();
-            String query = "SELECT * from style";
+            String query = "SELECT * from style GROUP BY Nazwa_stylu";
             conn = dbConnect.getConnection();
             ResultSet set = conn.createStatement().executeQuery(query);
 
@@ -75,9 +79,23 @@ public class style_controller implements Initializable {
         }
     }
 
+    Timeline time;
+
     public void add(ActionEvent actionEvent) throws IOException, SQLException {
         main_controller mc = new main_controller();
+        add_controller ad = new add_controller();
         mc.add(actionEvent);
+        time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (ad.refBool()) {
+                    refresh();
+                    time.stop();
+                }
+            }
+        }));
+        time.setCycleCount(Timeline.INDEFINITE);
+        time.play();
     }
 
     public void delete(ActionEvent actionEvent) throws IOException, SQLException {
@@ -108,13 +126,30 @@ public class style_controller implements Initializable {
 
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
         main_controller mc = new main_controller();
+        edit_controller ec = new edit_controller();
         if(!StyleFX.getSelectionModel().getSelectedItems().isEmpty()) {
             String[] arr = {String.valueOf(StyleFX.getSelectionModel().getSelectedItem().getId_stylu()),
                             String.valueOf(StyleFX.getSelectionModel().getSelectedItem().getNazwa_stylu())};
             mc.edit(actionEvent, arr);
+            time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (ec.refBool()) {
+                        refresh();
+                        time.stop();
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
         }
         else {
             mc.empty_row_dialog();
         }
+    }
+
+    public void refresh() {
+        list.clear();
+        populate();
     }
 }

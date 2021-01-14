@@ -11,8 +11,8 @@
       <TableView fx:id="PaintingsFX" prefHeight="400.0" prefWidth="1000.0">
         <columns>
           <TableColumn fx:id="Id_obrazu" prefWidth="75.0" text="Id obrazu" visible="false"/>
-          <TableColumn fx:id="Rok" prefWidth="75.0" text="Rok" />
             <TableColumn fx:id="Tytul" prefWidth="75.0" text="Tytul" />
+            <TableColumn fx:id="Rok" prefWidth="75.0" text="Rok" />
             <TableColumn fx:id="Opis" prefWidth="75.0" text="Opis" />
             <TableColumn fx:id="Imie_Nazwisko" prefWidth="75.0" text="Artysta" />
         </columns>

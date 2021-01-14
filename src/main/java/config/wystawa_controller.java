@@ -3,14 +3,18 @@ package config;
 import database.adres;
 import database.wystawa;
 import database.obrazy;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,7 +61,7 @@ public class wystawa_controller implements Initializable {
     private void populate() {
         try {
             list = FXCollections.observableArrayList();
-            String query = "SELECT * FROM wystawa INNER JOIN adres_wystawy ON wystawa.Id_adresu=adres_wystawy.Id_adresu";
+            String query = "SELECT * FROM wystawa INNER JOIN adres_wystawy ON wystawa.Id_adresu=adres_wystawy.Id_adresu GROUP BY Data_rozpoczecia";
             conn = dbConnect.getConnection();
             ResultSet set = conn.createStatement().executeQuery(query);
             int id;
@@ -104,9 +108,23 @@ public class wystawa_controller implements Initializable {
         }
     }
 
+    Timeline time;
+
     public void add(ActionEvent actionEvent) throws IOException, SQLException {
         main_controller mc = new main_controller();
+        add_controller ad = new add_controller();
         mc.add(actionEvent);
+        time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                if (ad.refBool()) {
+                    refresh();
+                    time.stop();
+                }
+            }
+        }));
+        time.setCycleCount(Timeline.INDEFINITE);
+        time.play();
     }
 
     public void delete(ActionEvent actionEvent) throws IOException, SQLException {
@@ -123,16 +141,16 @@ public class wystawa_controller implements Initializable {
                 }
             });
             stmt.executeBatch();
-            List removal = ExhibitionsFX.getSelectionModel().getSelectedItems();
-            list.remove(removal);
             String refresh = "ALTER TABLE wystawa AUTO_INCREMENT=1";
             conn.createStatement().executeUpdate(refresh);
+            refresh();
         }
         else {
             mc.empty_row_dialog();
         }
     }
 
+    ObservableList o;
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
         main_controller mc = new main_controller();
         if (!ExhibitionsFX.getSelectionModel().getSelectedItems().isEmpty()) {
@@ -148,9 +166,25 @@ public class wystawa_controller implements Initializable {
             });
             ec.setPaintings(obr);
             mc.edit(actionEvent, arr);
+            time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (ec.refBool()) {
+                        refresh();
+                        time.stop();
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
         }
         else {
             mc.empty_row_dialog();
         }
+    }
+
+    public void refresh() {
+        list.clear();
+        populate();
     }
 }
