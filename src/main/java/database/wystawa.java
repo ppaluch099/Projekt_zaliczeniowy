@@ -8,7 +8,6 @@ import javafx.scene.control.ComboBox;
 import java.sql.Date;
 
 public class wystawa {
-    //Id_wystawy, Nazwa, Data_rozpoczecia, Data_zakonczenia, Id_adresu
     private SimpleIntegerProperty Id_wystawy = new SimpleIntegerProperty();
     private SimpleStringProperty Nazwa = new SimpleStringProperty();
     private SimpleObjectProperty<Date> Data_rozpoczecia= new SimpleObjectProperty<>();

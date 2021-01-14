@@ -4,15 +4,21 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
+import java.awt.event.KeyEvent;
+import java.beans.EventHandler;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.function.UnaryOperator;
 
 public class add_controller{
 
@@ -26,40 +32,61 @@ public class add_controller{
         return ad;
     }
 
-    public DBConnect dbConnect = new DBConnect();
-    public Connection conn = dbConnect.getConnection();
+    public static boolean bool;
+    private DBConnect dbConnect = new DBConnect();
+    private Connection conn = dbConnect.getConnection();
     public GridPane grid_pane;
-    public ResultSet rs;
-    public String refresh, query;
-    public TextField a = new TextField();
-    public TextField b = new TextField();
-    public TextField c = new TextField();
-    public TextField d = new TextField();
-    public DatePicker data1 = new DatePicker();
-    public DatePicker data2 = new DatePicker();
-    public ComboBox combo = new ComboBox();
-    public Label label;
-    public String x;
-    public ListView<Integer> id = new ListView<>();
-    public PreparedStatement prSt;
+    private ResultSet rs;
+    private String refresh, query;
+    private TextField a = new TextField();
+    private TextField b = new TextField();
+    private TextField c = new TextField();
+    private TextField d = new TextField();
+    private DatePicker data1 = new DatePicker();
+    private DatePicker data2 = new DatePicker();
+    private ComboBox combo = new ComboBox();
+    private Label label;
+    private String x;
+    private ListView<Integer> id = new ListView<>();
+    private PreparedStatement prSt;
+
+    UnaryOperator<TextFormatter.Change> nums = change -> {
+        String text = change.getText();
+        if (text.matches("\\d?")) {
+            return change;
+        }
+        return null;
+    };
+
+    UnaryOperator<TextFormatter.Change> text = change -> {
+        String text = change.getText();
+        if (text.matches("^[a-zA-Z]*$")) {
+            return change;
+        }
+        return null;
+    };
 
     public void init_style(){
         label = new Label("Nazwa stylu");
+        a.setTextFormatter(new TextFormatter<String>(text));
         grid_pane.add(label,0,0);
         grid_pane.add(a,1,0);
         x = "style_menuitem";
     }
     public void init_artysta() throws SQLException{
         label = new Label("Imie");
+        a.setTextFormatter(new TextFormatter<String>(text));
         grid_pane.add(label,0,0);
         grid_pane.add(a,1,0);
         label = new Label("Nazwisko");
+        b.setTextFormatter(new TextFormatter<String>(text));
         grid_pane.add(label,0,1);
         grid_pane.add(b,1,1);
         label = new Label("Data urodzenia");
         grid_pane.add(label,0,2);
         grid_pane.add(data1,1,2);
         label = new Label("Miejsce urodzenia");
+        c.setTextFormatter(new TextFormatter<String>(text));
         grid_pane.add(label,0,3);
         grid_pane.add(c,1,3);
         label = new Label("Styl");
@@ -76,6 +103,7 @@ public class add_controller{
         grid_pane.add(label,0,0);
         grid_pane.add(a,1,0);
         label = new Label("Miasto");
+        b.setTextFormatter(new TextFormatter<String>(text));
         grid_pane.add(label,0,1);
         grid_pane.add(b,1,1);
         label = new Label("Kraj");
@@ -87,27 +115,17 @@ public class add_controller{
         grid_pane.add(combo,1,2);
         x = "adres_menuitem";
     }
+
     public void init_kraj(){
         label = new Label("Nazwa kraju");
+        a.setTextFormatter(new TextFormatter<String>(text));
         grid_pane.add(label,0,0);
         grid_pane.add(a,1,0);
         x = "kraj_menuitem";
     }
     public void init_obrazy() throws SQLException{
         label = new Label("Rok");
-        a.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                int year = Calendar.getInstance().get(Calendar.YEAR);
-                try {
-                    if (!t1.matches("\\d{0,4}?") || !(Integer.valueOf(t1) <= year)) {
-                        a.setText(s);
-                    }
-                }
-                catch (NumberFormatException e) {
-                }
-            }
-        });
+        a.setTextFormatter(new TextFormatter<Integer>(nums));
         grid_pane.add(label,0,0);
         grid_pane.add(a,1,0);
         label = new Label("Tytul");
@@ -180,8 +198,15 @@ public class add_controller{
                     query = "INSERT INTO kraje(Nazwa_kraju)" + " values('" + a.getText() + "')";
                     refresh = "ALTER TABLE kraje AUTO_INCREMENT=1";break;
                 case "wystawa_menuitem" :
-                    query = "INSERT INTO wystawa(Nazwa, Data_rozpoczecia,Data_zakonczenia,Id_adresu)" + " values('" + a.getText() + "','" + data1.getValue() + "','" + data2.getValue() + "'," + "(SELECT Id_adresu FROM adres_wystawy WHERE CONCAT(Nazwa_galerii, ' ',Miasto)=\"" + combo.getSelectionModel().getSelectedItem() + "\"))";
-                    refresh = "ALTER TABLE wystawa AUTO_INCREMENT=1";break;
+                    if (data2.getValue().isAfter(data1.getValue())) {
+                        query = "INSERT INTO wystawa(Nazwa, Data_rozpoczecia,Data_zakonczenia,Id_adresu)" + " values('" + a.getText() + "','" + data1.getValue() + "','" + data2.getValue() + "'," + "(SELECT Id_adresu FROM adres_wystawy WHERE CONCAT(Nazwa_galerii, ' ',Miasto)=\"" + combo.getSelectionModel().getSelectedItem() + "\"))";
+                        refresh = "ALTER TABLE wystawa AUTO_INCREMENT=1";
+                        break;
+                    }
+                    else {
+                        main_controller mc = new main_controller();
+                        mc.date_error_dialog();
+                    }
                 case "obrazy_menuitem" :
                     query = "INSERT INTO obrazy(Rok, Tytul, Opis, Id_artysty)" + " values('" + a.getText() + "','" + b.getText() + "','" + c.getText() + "',(" + "SELECT Id_artysty FROM artysta WHERE CONCAT(Imie, ' ', Nazwisko) = \"" + combo.getSelectionModel().getSelectedItem() +"\"))";
                     refresh = "ALTER TABLE obrazy AUTO_INCREMENT=1";break;
@@ -214,9 +239,9 @@ public class add_controller{
             throwables.printStackTrace();
         }
     }
-    private void dialog(int x) {
+    private void dialog(int z) {
         Dialog<String> dialog = new Dialog<>();
-        if(x==1){
+        if(z==1){
             dialog.setTitle("Success");
             dialog.setContentText("Operacja powiodła się");
             grid_pane.getScene().getWindow().hide();
@@ -228,5 +253,9 @@ public class add_controller{
         ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(type);
         dialog.showAndWait();
+    }
+
+    public boolean refBool() {
+        return bool;
     }
 }

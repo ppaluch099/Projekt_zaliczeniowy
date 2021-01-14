@@ -9,8 +9,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -71,6 +73,15 @@ public class obrazy_controller implements Initializable {
 
             PaintingsFX.setItems(list);
             PaintingsFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            PaintingsFX.setRowFactory(tv -> {
+                TableRow row = new TableRow();
+                row.setOnMouseClicked(e -> {
+                    if(row.isEmpty() && e.getButton() == MouseButton.PRIMARY) {
+                        PaintingsFX.getSelectionModel().clearSelection();
+                    }
+                });
+                return row;
+            });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -103,6 +114,21 @@ public class obrazy_controller implements Initializable {
         }
         else {
             main_controller mc = new main_controller();
+            mc.empty_row_dialog();
+        }
+    }
+
+    public void edit(ActionEvent actionEvent) throws IOException, SQLException {
+        main_controller mc = new main_controller();
+        if(!PaintingsFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            String[] arr = {String.valueOf(PaintingsFX.getSelectionModel().getSelectedItem().getId_obrazu()),
+                            String.valueOf(PaintingsFX.getSelectionModel().getSelectedItem().getRok()),
+                            String.valueOf(PaintingsFX.getSelectionModel().getSelectedItem().getTytul()),
+                            String.valueOf(PaintingsFX.getSelectionModel().getSelectedItem().getOpis()),
+                            String.valueOf(PaintingsFX.getSelectionModel().getSelectedItem().getImie_Nazwisko())};
+            mc.edit(actionEvent, arr);
+        }
+        else {
             mc.empty_row_dialog();
         }
     }

@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -66,6 +67,15 @@ public class adres_controller implements Initializable {
 
             AddressFX.setItems(list);
             AddressFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            AddressFX.setRowFactory(tv -> {
+                TableRow row = new TableRow();
+                row.setOnMouseClicked(e -> {
+                    if (row.isEmpty() && e.getButton()==MouseButton.PRIMARY) {
+                        AddressFX.getSelectionModel().clearSelection();
+                    }
+                });
+                return row ;
+            });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -103,10 +113,15 @@ public class adres_controller implements Initializable {
     }
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
         main_controller mc = new main_controller();
-        String[] arr = {String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getId_adresu()),
-                String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getNazwa_galerii()),
-                String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getMiasto()),
-                String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getNazwa_kraju())};
-        mc.edit(actionEvent, arr);
+        if(!AddressFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            String[] arr = {String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getId_adresu()),
+                            String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getNazwa_galerii()),
+                            String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getMiasto()),
+                            String.valueOf(AddressFX.getSelectionModel().getSelectedItem().getNazwa_kraju())};
+            mc.edit(actionEvent, arr);
+        }
+        else {
+            mc.empty_row_dialog();
+        }
     }
 }

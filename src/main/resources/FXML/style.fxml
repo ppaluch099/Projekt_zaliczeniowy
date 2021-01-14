@@ -10,7 +10,7 @@
    <children>
       <TableView fx:id="StyleFX" prefHeight="400.0" prefWidth="1000.0">
         <columns>
-          <TableColumn fx:id="Id_stylu" prefWidth="75.0" text="Id stylu" />
+          <TableColumn fx:id="Id_stylu" prefWidth="75.0" text="Id stylu" visible="false"/>
           <TableColumn fx:id="Nazwa_stylu" prefWidth="75.0" text="Nazwa stylu" />
         </columns>
          <columnResizePolicy>
@@ -21,6 +21,7 @@
                   <items>
                       <MenuItem fx:id="style_menuitem" mnemonicParsing="false" onAction="#add" text="Dodaj"/>
                       <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="Usuń" />
+                      <MenuItem fx:id="style_edit" mnemonicParsing="false" onAction="#edit" text="Edytuj" />
                   </items>
               </ContextMenu>
           </contextMenu>

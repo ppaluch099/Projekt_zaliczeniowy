@@ -10,10 +10,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -36,6 +38,14 @@ public class wystawa_controller implements Initializable {
     private ObservableList<wystawa> list;
     private DBConnect dbConnect;
     private Connection conn;
+    main_controller mc = new main_controller();
+    edit_controller ec = new edit_controller();
+
+    private static ArrayList ar;
+
+    public static ArrayList getAr() {
+        return ar;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -80,6 +90,15 @@ public class wystawa_controller implements Initializable {
 
             ExhibitionsFX.setItems(list);
             ExhibitionsFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            ExhibitionsFX.setRowFactory(tv -> {
+                TableRow row = new TableRow();
+                row.setOnMouseClicked(e -> {
+                    if(row.isEmpty() && e.getButton() == MouseButton.PRIMARY) {
+                        ExhibitionsFX.getSelectionModel().clearSelection();
+                    }
+                });
+                return row;
+            });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -110,7 +129,27 @@ public class wystawa_controller implements Initializable {
             conn.createStatement().executeUpdate(refresh);
         }
         else {
-            main_controller mc = new main_controller();
+            mc.empty_row_dialog();
+        }
+    }
+
+    public void edit(ActionEvent actionEvent) throws IOException, SQLException {
+        main_controller mc = new main_controller();
+        if (!ExhibitionsFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            String[] arr = {String.valueOf(ExhibitionsFX.getSelectionModel().getSelectedItem().getId_wystawy()),
+                            String.valueOf(ExhibitionsFX.getSelectionModel().getSelectedItem().getNazwa()),
+                            String.valueOf(ExhibitionsFX.getSelectionModel().getSelectedItem().getData_rozpoczecia()),
+                            String.valueOf(ExhibitionsFX.getSelectionModel().getSelectedItem().getData_zakonczenia()),
+                            String.valueOf(ExhibitionsFX.getSelectionModel().getSelectedItem().getNazwa_galerii())};
+            ObservableList o = ExhibitionsFX.getSelectionModel().getSelectedItem().getTytul().getItems();
+            ArrayList obr = new ArrayList();
+            o.forEach(e -> {
+                obr.add(String.valueOf(e));
+            });
+            ec.setPaintings(obr);
+            mc.edit(actionEvent, arr);
+        }
+        else {
             mc.empty_row_dialog();
         }
     }

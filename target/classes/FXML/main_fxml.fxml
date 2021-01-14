@@ -4,20 +4,32 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="ap" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.main_controller">
     <children>
-        <Pane fx:id="view" layoutY="26.0" prefHeight="400.0" prefWidth="1000.0" />
-      <HBox fx:id="main_hbox" prefHeight="26.0" prefWidth="1000.0">
+        <Pane fx:id="view" layoutY="26.0" prefHeight="400.0" prefWidth="1000.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#Address_menu" prefHeight="25.0" prefWidth="167.0" snapToPixel="false" text="Adresy" />
-            <Button mnemonicParsing="false" onAction="#Artists_menu" prefHeight="25.0" prefWidth="167.0" text="Artyści" />
-            <Button mnemonicParsing="false" onAction="#Country_menu" prefHeight="25.0" prefWidth="167.0" text="Kraje" />
-            <Button mnemonicParsing="false" onAction="#Paintings_menu" prefHeight="25.0" prefWidth="167.0" text="Obrazy" />
-            <Button minWidth="62.0" mnemonicParsing="false" onAction="#Style_menu" prefHeight="26.0" prefWidth="167.0" text="Style" />
-            <Button minWidth="20.0" mnemonicParsing="false" onAction="#Exhibitions_menu" prefHeight="26.0" prefWidth="167.0" snapToPixel="false" text="Wystawy" />
+            <VBox fx:id="main_vbox" layoutX="350.0" layoutY="1.0" prefHeight="400.0" prefWidth="300.0" spacing="40.0">
+               <children>
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Address_menu" prefHeight="25.0" snapToPixel="false" text="Adresy" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Artists_menu" prefHeight="25.0" text="Artyści" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Country_menu" prefHeight="25.0" text="Kraje" />
+                  <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Paintings_menu" prefHeight="25.0" text="Obrazy" />
+                  <Button maxWidth="Infinity" minWidth="62.0" mnemonicParsing="false" onAction="#Style_menu" prefHeight="25.0" text="Style" />
+                  <Button maxWidth="Infinity" minWidth="20.0" mnemonicParsing="false" onAction="#Exhibitions_menu" prefHeight="25.0" snapToPixel="false" text="Wystawy" />
+               </children>
+            </VBox>
+         </children></Pane>
+      <HBox fx:id="main_hbox" prefHeight="25.0" prefWidth="1000.0" visible="false">
+         <children>
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Address_menu" prefHeight="25.0" snapToPixel="false" text="Adresy" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Artists_menu" prefHeight="25.0" text="Artyści" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Country_menu" prefHeight="25.0" text="Kraje" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Paintings_menu" prefHeight="25.0" text="Obrazy" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" minWidth="62.0" mnemonicParsing="false" onAction="#Style_menu" prefHeight="25.0" text="Style" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" minWidth="20.0" mnemonicParsing="false" onAction="#Exhibitions_menu" prefHeight="25.0" snapToPixel="false" text="Wystawy" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
-<!--        <Button mnemonicParsing="false" onAction="#hid" text="hider"/>-->
     </children>
 </AnchorPane>

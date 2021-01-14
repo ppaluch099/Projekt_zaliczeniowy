@@ -8,8 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 
 import javax.swing.text.Style;
 import java.io.IOException;
@@ -59,6 +61,15 @@ public class style_controller implements Initializable {
 
             StyleFX.setItems(list);
             StyleFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            StyleFX.setRowFactory(tv -> {
+                TableRow row = new TableRow();
+                row.setOnMouseClicked(e -> {
+                    if(row.isEmpty() && e.getButton() == MouseButton.PRIMARY) {
+                        StyleFX.getSelectionModel().clearSelection();
+                    }
+                });
+                return row;
+            });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -91,6 +102,18 @@ public class style_controller implements Initializable {
         }
         else {
             main_controller mc = new main_controller();
+            mc.empty_row_dialog();
+        }
+    }
+
+    public void edit(ActionEvent actionEvent) throws IOException, SQLException {
+        main_controller mc = new main_controller();
+        if(!StyleFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            String[] arr = {String.valueOf(StyleFX.getSelectionModel().getSelectedItem().getId_stylu()),
+                            String.valueOf(StyleFX.getSelectionModel().getSelectedItem().getNazwa_stylu())};
+            mc.edit(actionEvent, arr);
+        }
+        else {
             mc.empty_row_dialog();
         }
     }

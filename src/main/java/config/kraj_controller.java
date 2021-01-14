@@ -1,13 +1,19 @@
 package config;
 
 import database.kraje;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -58,10 +64,21 @@ public class kraj_controller implements Initializable {
 
             KrajFX.setItems(list);
             KrajFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            KrajFX.setRowFactory(tv -> {
+                TableRow row = new TableRow();
+                row.setOnMouseClicked(e -> {
+                    if(row.isEmpty() && e.getButton() == MouseButton.PRIMARY) {
+                        KrajFX.getSelectionModel().clearSelection();
+                    }
+                });
+                return row;
+            });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
+
+    Timeline time;
 
     public void add(ActionEvent actionEvent) throws IOException, SQLException {
         main_controller mc = new main_controller();
@@ -92,4 +109,34 @@ public class kraj_controller implements Initializable {
             mc.empty_row_dialog();
         }
     }
+
+    public void edit(ActionEvent actionEvent) throws IOException, SQLException {
+        main_controller mc = new main_controller();
+        edit_controller ec = new edit_controller();
+        if(!KrajFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            String[] arr = {String.valueOf(KrajFX.getSelectionModel().getSelectedItem().getId_kraju()),
+                            String.valueOf(KrajFX.getSelectionModel().getSelectedItem().getNazwa_kraju())};
+            mc.edit(actionEvent, arr);
+            time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    if (ec.refBool()) {
+                        refresh();
+                        time.stop();
+                    }
+                }
+            }));
+            time.setCycleCount(Timeline.INDEFINITE);
+            time.play();
+        }
+        else {
+            mc.empty_row_dialog();
+        }
+    }
+
+    public void refresh() {
+        list.clear();
+        populate();
+    }
+
 }

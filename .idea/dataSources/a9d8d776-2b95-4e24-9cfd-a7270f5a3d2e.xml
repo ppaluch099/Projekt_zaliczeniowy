@@ -1056,15 +1056,16 @@
     </user>
     <table id="335" parent="3" name="adres_wystawy"/>
     <table id="336" parent="3" name="artysta"/>
-    <table id="337" parent="3" name="informacje_o_wystawie"/>
-    <table id="338" parent="3" name="kraje"/>
-    <table id="339" parent="3" name="obrazy"/>
-    <table id="340" parent="3" name="style"/>
-    <table id="341" parent="3" name="wystawa"/>
+    <table id="337" parent="3" name="kraje"/>
+    <table id="338" parent="3" name="obrazy"/>
+    <table id="339" parent="3" name="style"/>
+    <table id="340" parent="3" name="wystawa"/>
+    <table id="341" parent="3" name="wystawa_pom"/>
     <column id="342" parent="335" name="Id_adresu">
       <Position>1</Position>
       <DataType>int(20)|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
     <column id="343" parent="335" name="Nazwa_galerii">
       <Position>2</Position>
@@ -1134,136 +1135,143 @@
       <RefTableName>style</RefTableName>
       <RefColNames>Id_stylu</RefColNames>
     </foreign-key>
-    <column id="358" parent="337" name="ID_wystawy">
-      <Position>1</Position>
-      <DataType>int(10)|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>null</SequenceIdentity>
-    </column>
-    <column id="359" parent="337" name="Nazwa">
-      <Position>2</Position>
-      <DataType>varchar(100)|0s</DataType>
-    </column>
-    <column id="360" parent="337" name="Data_rozpoczecia">
-      <Position>3</Position>
-      <DataType>date|0s</DataType>
-    </column>
-    <column id="361" parent="337" name="Data_zakonczenia">
-      <Position>4</Position>
-      <DataType>date|0s</DataType>
-    </column>
-    <column id="362" parent="337" name="Id_adresu">
-      <Position>5</Position>
-      <DataType>int(20)|0s</DataType>
-    </column>
-    <index id="363" parent="337" name="Id_adresu">
-      <ColNames>Id_adresu</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="364" parent="337" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>ID_wystawy</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="365" parent="337" name="informacje_o_wystawie_ibfk_1">
-      <ColNames>Id_adresu</ColNames>
-      <RefTableName>adres_wystawy</RefTableName>
-      <RefColNames>Id_adresu</RefColNames>
-    </foreign-key>
-    <column id="366" parent="338" name="Id_kraju">
+    <column id="358" parent="337" name="Id_kraju">
       <Position>1</Position>
       <DataType>int(20)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="367" parent="338" name="Nazwa_kraju">
+    <column id="359" parent="337" name="Nazwa_kraju">
       <Position>2</Position>
-      <DataType>int(255)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="368" parent="338" name="PRIMARY">
+    <key id="360" parent="337" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Id_kraju</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="369" parent="339" name="ID_obrazu">
+    <column id="361" parent="338" name="ID_obrazu">
       <Position>1</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="370" parent="339" name="Rok">
+    <column id="362" parent="338" name="Rok">
       <Position>2</Position>
       <DataType>int(4)|0s</DataType>
     </column>
-    <column id="371" parent="339" name="Tytul">
+    <column id="363" parent="338" name="Tytul">
       <Position>3</Position>
-      <DataType>varchar(20)|0s</DataType>
+      <DataType>varchar(30)|0s</DataType>
     </column>
-    <column id="372" parent="339" name="Opis">
+    <column id="364" parent="338" name="Opis">
       <Position>4</Position>
       <DataType>varchar(200)|0s</DataType>
     </column>
-    <column id="373" parent="339" name="ID_artysty">
+    <column id="365" parent="338" name="ID_artysty">
       <Position>5</Position>
       <DataType>int(10)|0s</DataType>
     </column>
-    <index id="374" parent="339" name="ID_artysty">
+    <index id="366" parent="338" name="ID_artysty">
       <ColNames>ID_artysty</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="375" parent="339" name="PRIMARY">
+    <key id="367" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID_obrazu</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="376" parent="339" name="obrazy_ibfk_1">
+    <foreign-key id="368" parent="338" name="obrazy_ibfk_1">
       <ColNames>ID_artysty</ColNames>
       <RefTableName>artysta</RefTableName>
       <RefColNames>ID_artysty</RefColNames>
       <OnUpdate>set-null</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="377" parent="340" name="Id_stylu">
+    <column id="369" parent="339" name="Id_stylu">
       <Position>1</Position>
       <DataType>int(20)|0s</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="378" parent="340" name="Nazwa_stylu">
+    <column id="370" parent="339" name="Nazwa_stylu">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="379" parent="340" name="PRIMARY">
+    <key id="371" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Id_stylu</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="380" parent="341" name="ID_wystawy">
+    <column id="372" parent="340" name="ID_wystawy">
       <Position>1</Position>
       <DataType>int(10)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="381" parent="341" name="ID_obrazu">
+    <column id="373" parent="340" name="Nazwa">
       <Position>2</Position>
-      <DataType>int(10)|0s</DataType>
+      <DataType>varchar(100)|0s</DataType>
     </column>
-    <index id="382" parent="341" name="ID_wystawy">
-      <ColNames>ID_wystawy</ColNames>
+    <column id="374" parent="340" name="Data_rozpoczecia">
+      <Position>3</Position>
+      <DataType>date|0s</DataType>
+    </column>
+    <column id="375" parent="340" name="Data_zakonczenia">
+      <Position>4</Position>
+      <DataType>date|0s</DataType>
+    </column>
+    <column id="376" parent="340" name="Id_adresu">
+      <Position>5</Position>
+      <DataType>int(20)|0s</DataType>
+    </column>
+    <index id="377" parent="340" name="Id_adresu">
+      <ColNames>Id_adresu</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="383" parent="341" name="ID_obrazu">
-      <ColNames>ID_obrazu</ColNames>
-      <Type>btree</Type>
-    </index>
-    <foreign-key id="384" parent="341" name="wystawa_ibfk_1">
+    <key id="378" parent="340" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>ID_wystawy</ColNames>
-      <RefTableName>informacje_o_wystawie</RefTableName>
-      <RefColNames>ID_wystawy</RefColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="379" parent="340" name="wystawa_ibfk_1">
+      <ColNames>Id_adresu</ColNames>
+      <RefTableName>adres_wystawy</RefTableName>
+      <RefColNames>Id_adresu</RefColNames>
     </foreign-key>
-    <foreign-key id="385" parent="341" name="wystawa_ibfk_2">
-      <ColNames>ID_obrazu</ColNames>
+    <column id="380" parent="341" name="Id_wystawy">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="381" parent="341" name="Id_obrazu">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="382" parent="341" name="Id_wystawy">
+      <ColNames>Id_wystawy
+Id_obrazu</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="383" parent="341" name="Id_obrazu">
+      <ColNames>Id_obrazu</ColNames>
+      <Type>btree</Type>
+    </index>
+    <foreign-key id="384" parent="341" name="wystawa_pom_ibfk_3">
+      <ColNames>Id_wystawy</ColNames>
+      <RefTableName>wystawa</RefTableName>
+      <RefColNames>ID_wystawy</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="385" parent="341" name="wystawa_pom_ibfk_4">
+      <ColNames>Id_obrazu</ColNames>
       <RefTableName>obrazy</RefTableName>
       <RefColNames>ID_obrazu</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
     </foreign-key>
   </database-model>
 </dataSource>

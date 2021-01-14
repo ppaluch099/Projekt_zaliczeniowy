@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,13 +40,12 @@ public class artysta_controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       dbConnect = new DBConnect();
-
        populate();
     }
 
-    private void populate() {
+    public void populate() {
         try {
+            dbConnect = new DBConnect();
             list = FXCollections.observableArrayList();
             String query = "SELECT * FROM artysta INNER JOIN style ON artysta.Id_stylu=style.Id_stylu";
             conn = dbConnect.getConnection();
@@ -71,6 +71,15 @@ public class artysta_controller implements Initializable {
 
             ArtistsFX.setItems(list);
             ArtistsFX.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+            ArtistsFX.setRowFactory(tv -> {
+                TableRow row = new TableRow();
+                row.setOnMouseClicked(e -> {
+                    if (row.isEmpty() && e.getButton() == MouseButton.PRIMARY) {
+                        ArtistsFX.getSelectionModel().clearSelection();
+                    }
+                });
+                return row;
+            });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -79,6 +88,7 @@ public class artysta_controller implements Initializable {
     public void add(ActionEvent actionEvent) throws IOException, SQLException{
         main_controller mc = new main_controller();
         mc.add(actionEvent);
+
     }
 
     public void delete(ActionEvent actionEvent) throws IOException,SQLException {
@@ -101,6 +111,22 @@ public class artysta_controller implements Initializable {
             conn.createStatement().executeUpdate(refresh);
         } else {
             main_controller mc = new main_controller();
+            mc.empty_row_dialog();
+        }
+    }
+
+    public void edit(ActionEvent actionEvent) throws IOException, SQLException {
+        main_controller mc = new main_controller();
+        if(!ArtistsFX.getSelectionModel().getSelectedItems().isEmpty()) {
+            String[] arr = {String.valueOf(ArtistsFX.getSelectionModel().getSelectedItem().getId_artysty()),
+                            String.valueOf(ArtistsFX.getSelectionModel().getSelectedItem().getImie()),
+                            String.valueOf(ArtistsFX.getSelectionModel().getSelectedItem().getNazwisko()),
+                            String.valueOf(ArtistsFX.getSelectionModel().getSelectedItem().getData_ur()),
+                            String.valueOf(ArtistsFX.getSelectionModel().getSelectedItem().getMiejsce_ur()),
+                            String.valueOf(ArtistsFX.getSelectionModel().getSelectedItem().getNazwa_stylu())};
+            mc.edit(actionEvent, arr);
+        }
+        else {
             mc.empty_row_dialog();
         }
     }
