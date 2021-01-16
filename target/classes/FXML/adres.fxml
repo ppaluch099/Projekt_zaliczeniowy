@@ -6,11 +6,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.adres_controller">
+<AnchorPane prefHeight="400.0" prefWidth="1000.0" stylesheets="/CSS/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.adres_controller">
    <children>
       <TableView fx:id="AddressFX" prefHeight="400.0" prefWidth="1000.0">
         <columns>
-          <TableColumn fx:id="Id_adresu" prefWidth="75.0" text="Id adresu" visible="false"/>
+          <TableColumn fx:id="Id_adresu" prefWidth="75.0" text="Id adresu" visible="false" />
           <TableColumn fx:id="Nazwa_galerii" prefWidth="75.0" text="Nazwa galerii" />
             <TableColumn fx:id="Miasto" prefWidth="75.0" text="Miasto" />
             <TableColumn fx:id="Nazwa_kraju" prefWidth="75.0" text="Nazwa kraju" />

@@ -6,7 +6,7 @@
 
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.MenuItem?>
-<AnchorPane prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.obrazy_controller">
+<AnchorPane stylesheets="/CSS/style.css" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.obrazy_controller">
    <children>
       <TableView fx:id="PaintingsFX" prefHeight="400.0" prefWidth="1000.0">
         <columns>

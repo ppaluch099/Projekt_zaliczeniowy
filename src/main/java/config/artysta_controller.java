@@ -12,9 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -87,6 +88,18 @@ public class artysta_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        ArtistsFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+                    try {
+                        delete();
+                    } catch (IOException | SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     Timeline time;
@@ -108,7 +121,7 @@ public class artysta_controller implements Initializable {
         time.play();
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException,SQLException {
+    public void delete() throws IOException,SQLException {
         if (!ArtistsFX.getSelectionModel().getSelectedItems().isEmpty()) {
             ObservableList selected = ArtistsFX.getSelectionModel().getSelectedIndices();
             String delQuery = "DELETE FROM artysta WHERE Id_artysty = ?";

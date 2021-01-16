@@ -10,14 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.util.Callback;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -80,15 +79,51 @@ public class obrazy_controller implements Initializable {
             PaintingsFX.setRowFactory(tv -> {
                 TableRow row = new TableRow();
                 row.setOnMouseClicked(e -> {
-                    if(row.isEmpty() && e.getButton() == MouseButton.PRIMARY) {
+                    if (row.isEmpty() && e.getButton() == MouseButton.PRIMARY) {
                         PaintingsFX.getSelectionModel().clearSelection();
                     }
                 });
                 return row;
             });
+            Callback<TableColumn<obrazy, String>, TableCell<obrazy, String>> opisCellFactory
+                    = Opis.getCellFactory();
+            Opis.setCellFactory(c -> {
+                TableCell<obrazy, String> cell = opisCellFactory.call(c);
+
+                Tooltip tooltip = new Tooltip();
+                if (tooltip != null) {
+                    tooltip.textProperty().bind(cell.itemProperty().asString());
+                    cell.setTooltip(tooltip);
+                }
+                return cell;
+            });
+            Callback<TableColumn<artysta, String>, TableCell<artysta, String>> imie_nazwiskoCellFactory
+                    = Imie_Nazwisko.getCellFactory();
+            Imie_Nazwisko.setCellFactory(c -> {
+                TableCell<artysta, String> cell = imie_nazwiskoCellFactory.call(c);
+
+                Tooltip tooltip = new Tooltip();
+                if (tooltip != null) {
+                    tooltip.textProperty().bind(cell.itemProperty().asString());
+                    cell.setTooltip(tooltip);
+                }
+                return cell;
+            });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        PaintingsFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+                    try {
+                        delete();
+                    } catch (IOException | SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     Timeline time;
@@ -110,7 +145,7 @@ public class obrazy_controller implements Initializable {
         time.play();
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException,SQLException {
+    public void delete() throws IOException,SQLException {
         if (!PaintingsFX.getSelectionModel().getSelectedItems().isEmpty()) {
             ObservableList selected = PaintingsFX.getSelectionModel().getSelectedIndices();
             String delQuery = "DELETE FROM obrazy WHERE Id_obrazu = ?";

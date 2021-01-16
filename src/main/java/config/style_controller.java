@@ -14,10 +14,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
-
-import javax.swing.text.Style;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -77,6 +77,18 @@ public class style_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        StyleFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+                    try {
+                        delete();
+                    } catch (IOException | SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     Timeline time;
@@ -98,7 +110,7 @@ public class style_controller implements Initializable {
         time.play();
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException, SQLException {
+    public void delete() throws IOException, SQLException {
         if(!StyleFX.getSelectionModel().getSelectedItems().isEmpty()) {
             ObservableList selected = StyleFX.getSelectionModel().getSelectedIndices();
             String delQuery = "DELETE FROM style WHERE Id_stylu = ?";

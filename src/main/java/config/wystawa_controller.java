@@ -13,14 +13,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class wystawa_controller implements Initializable {
@@ -106,6 +106,18 @@ public class wystawa_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        ExhibitionsFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+                    try {
+                        delete();
+                    } catch (IOException | SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     Timeline time;
@@ -127,7 +139,7 @@ public class wystawa_controller implements Initializable {
         time.play();
     }
 
-    public void delete(ActionEvent actionEvent) throws IOException, SQLException {
+    public void delete() throws IOException, SQLException {
         if (!ExhibitionsFX.getSelectionModel().getSelectedItems().isEmpty()) {
             ObservableList selected = ExhibitionsFX.getSelectionModel().getSelectedIndices();
             String delQuery = "DELETE FROM wystawa WHERE Id_wystawy = ?";

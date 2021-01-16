@@ -1,13 +1,8 @@
 package config;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.*;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -16,8 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -110,7 +103,7 @@ public class main_controller {
         String value = actionEvent.getSource().toString();
         String x = value.substring(12,value.indexOf(','));
             switch (x) {
-            case "adres_edit" : stage.setTitle("Edytuj adres"); edit_controller.getEd().init_adres(arr);
+            case "adres_edit" : stage.setTitle("Edytuj adres"); edit_controller.getEd().init_adres(arr);break;
             case "artysta_edit" : stage.setTitle("Edytuj artystę"); edit_controller.getEd().init_artysta(arr);break;
             case "kraj_edit" : stage.setTitle("Edytuj kraj"); edit_controller.getEd().init_kraj(arr);break;
             case "obrazy_edit" : stage.setTitle("Edytuj obraz"); edit_controller.getEd().init_obrazy(arr);break;
