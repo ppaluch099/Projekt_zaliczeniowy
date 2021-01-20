@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
@@ -38,6 +39,8 @@ public class artysta_controller implements Initializable {
     private TableColumn<artysta,String> Miejsce_ur;
     @FXML
     private TableColumn<style,String> Nazwa_stylu;
+    @FXML
+    private MenuItem artysta_menuitem;
 
     private ObservableList<artysta> list;
     private DBConnect dbConnect;
@@ -85,6 +88,18 @@ public class artysta_controller implements Initializable {
                 });
                 return row;
             });
+            Callback<TableColumn<artysta, String>, TableCell<artysta, String>> nazwiskoCellFactory
+                    = Nazwisko.getCellFactory();
+            Nazwisko.setCellFactory(c -> {
+                TableCell<artysta, String> cell = nazwiskoCellFactory.call(c);
+
+                Tooltip tooltip = new Tooltip();
+                if (tooltip != null) {
+                    tooltip.textProperty().bind(cell.itemProperty().asString());
+                    cell.setTooltip(tooltip);
+                }
+                return cell;
+            });
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -97,6 +112,9 @@ public class artysta_controller implements Initializable {
                     } catch (IOException | SQLException e) {
                         e.printStackTrace();
                     }
+                }
+                else if (keyEvent.getCode().equals(KeyCode.ADD)) {
+                    artysta_menuitem.fire();
                 }
             }
         });

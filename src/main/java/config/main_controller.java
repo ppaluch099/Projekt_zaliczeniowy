@@ -1,10 +1,14 @@
 package config;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -26,48 +30,34 @@ public class main_controller {
     public Pane view;
     @FXML
     public HBox main_hbox;
-    @FXML
-    public VBox main_vbox;
 
     public void Artists_menu() throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/artysta.fxml"));
-        main_vbox.setVisible(false);
-        main_hbox.setVisible(true);
         view.getChildren().setAll(pane);
     }
 
     public void Country_menu() throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/kraj.fxml"));
-        main_vbox.setVisible(false);
-        main_hbox.setVisible(true);
         view.getChildren().setAll(pane);
     }
 
     public void Address_menu() throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/adres.fxml"));
-        main_vbox.setVisible(false);
-        main_hbox.setVisible(true);
         view.getChildren().setAll(pane);
     }
 
     public void Paintings_menu() throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/obrazy.fxml"));
-        main_vbox.setVisible(false);
-        main_hbox.setVisible(true);
         view.getChildren().setAll(pane);
     }
 
     public void Style_menu() throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/style.fxml"));
-        main_vbox.setVisible(false);
-        main_hbox.setVisible(true);
         view.getChildren().setAll(pane);
     }
 
     public void Exhibitions_menu() throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/wystawa.fxml"));
-        main_vbox.setVisible(false);
-        main_hbox.setVisible(true);
         view.getChildren().setAll(pane);
     }
 
@@ -76,8 +66,7 @@ public class main_controller {
         AnchorPane root2 = load.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root2));
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(prime);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/CSS/Images/art2.png")));
         stage.show();
         String value = actionEvent.getSource().toString();
         String x = value.substring(12,value.indexOf(','));
@@ -96,8 +85,7 @@ public class main_controller {
         FXMLLoader load = new FXMLLoader(this.getClass().getResource("/FXML/edit.fxml"));
         AnchorPane root2 = load.load();
         Stage stage = new Stage();
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(prime);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/CSS/Images/art2.png")));
         stage.setScene(new Scene(root2));
         stage.show();
         String value = actionEvent.getSource().toString();
@@ -125,6 +113,15 @@ public class main_controller {
         Dialog d = new Dialog();
         d.setTitle("Błędna data");
         d.setContentText("Data zakończenia nie moze być przed datą rozpoczęcia");
+        ButtonType b = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        d.getDialogPane().getButtonTypes().add(b);
+        d.showAndWait();
+    }
+
+    public void nullValueDialog() {
+        Dialog d = new Dialog();
+        d.setTitle("Brak wartości");
+        d.setContentText("Pola nie mogą być puste");
         ButtonType b = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         d.getDialogPane().getButtonTypes().add(b);
         d.showAndWait();

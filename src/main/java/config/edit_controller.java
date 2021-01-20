@@ -44,6 +44,7 @@ public class edit_controller {
     public ListView<Integer> id = new ListView<>();
     public PreparedStatement prSt;
     public String arr[];
+    main_controller mc = new main_controller();
 
     UnaryOperator<TextFormatter.Change> nums = change -> {
         String text = change.getText();
@@ -55,7 +56,7 @@ public class edit_controller {
 
     UnaryOperator<TextFormatter.Change> text = change -> {
         String text = change.getText();
-        if (text.matches("^[a-zA-Z]*$")) {
+        if (text.matches("^[a-zA-Z .'-]*$")) {
             return change;
         }
         return null;
@@ -174,10 +175,12 @@ public class edit_controller {
         label = new Label("Data rozpoczecia");
         grid_pane.add(label,0,1);
         data1.setValue(LocalDate.parse(wystawy[2]));
+        data1.setEditable(false);
         grid_pane.add(data1,1,1);
         label = new Label("Data zakonczenia");
         grid_pane.add(label,0,2);
         data2.setValue(LocalDate.parse(wystawy[3]));
+        data2.setEditable(false);
         grid_pane.add(data2,1,2);
         label = new Label("Galeria ");
         rs = conn.createStatement().executeQuery("SELECT Nazwa_galerii FROM adres_wystawy");
@@ -219,19 +222,27 @@ public class edit_controller {
 
     private int counter = 0;
     @FXML
-    public void edit() {
+    public void edit() throws SQLException {
+        int z = 0;
         switch (x) {
             case "adres_edit":
-                query = "UPDATE adres_wystawy SET Nazwa_galerii =\'" +
-                        a.getText() +
-                        "\', Miasto = \'" +
-                        b.getText() + "\', Id_kraju = " +
-                        "(SELECT Id_kraju FROM kraje WHERE Nazwa_kraju= \'" +
-                        combo.getSelectionModel().getSelectedItem() +
-                        "\') WHERE Id_adresu = " +
-                        arr[0];
+                if (a.getText() != "" && b.getText() != "" && combo.getSelectionModel().getSelectedItem() != "") {
+                    query = "UPDATE adres_wystawy SET Nazwa_galerii =\'" +
+                            a.getText() +
+                            "\', Miasto = \'" +
+                            b.getText() + "\', Id_kraju = " +
+                            "(SELECT Id_kraju FROM kraje WHERE Nazwa_kraju= \'" +
+                            combo.getSelectionModel().getSelectedItem() +
+                            "\') WHERE Id_adresu = " +
+                            arr[0];
+                    z = conn.createStatement().executeUpdate(query);
+                }
+                else {
+                    mc.nullValueDialog();
+                }
                 break;
             case "artysta_edit":
+                if (a.getText() != "" && b.getText() != "" && data1.getValue() != null && c.getText() != "" && combo.getSelectionModel().getSelectedItem() != ""){
                 query = "UPDATE artysta SET Imie =\'" +
                         a.getText() + "\', Nazwisko = \'" +
                         b.getText() + "\', Data_ur = \'" +
@@ -241,33 +252,57 @@ public class edit_controller {
                         combo.getSelectionModel().getSelectedItem() +
                         "\') WHERE ID_artysty = " +
                         arr[0];
+                    z = conn.createStatement().executeUpdate(query);
+                }
+                else {
+                    mc.nullValueDialog();
+                }
                 break;
             case "kraj_edit":
-                query = "UPDATE kraje SET Nazwa_kraju =\'" +
-                        a.getText() +
-                        "\' WHERE Id_kraju =" +
-                        arr[0];
+                if (a.getText() != "") {
+                    query = "UPDATE kraje SET Nazwa_kraju =\'" +
+                            a.getText() +
+                            "\' WHERE Id_kraju =" +
+                            arr[0];
+                    z = conn.createStatement().executeUpdate(query);
+                }
+                else {
+                    mc.nullValueDialog();
+                }
                 break;
             case "obrazy_edit":
-                query = "UPDATE obrazy SET Rok =\'" +
-                        a.getText() +
-                        "\', Tytul=\'" +
-                        b.getText() +
-                        "\', Opis =\'" +
-                        c.getText() +
-                        "\', ID_artysty =" +
-                        "(SELECT ID_artysty FROM artysta WHERE CONCAT(Imie,' ',Nazwisko)=\'" +
-                        combo.getSelectionModel().getSelectedItem() +
-                        "\') WHERE ID_obrazu =" +
-                        arr[0];
+                if (a.getText() != "" && b.getText() != "" && c.getText() != "" && combo.getSelectionModel().getSelectedItem() != "") {
+                    query = "UPDATE obrazy SET Rok =\'" +
+                            a.getText() +
+                            "\', Tytul=\'" +
+                            b.getText() +
+                            "\', Opis =\'" +
+                            c.getText() +
+                            "\', ID_artysty =" +
+                            "(SELECT ID_artysty FROM artysta WHERE CONCAT(Imie,' ',Nazwisko)=\'" +
+                            combo.getSelectionModel().getSelectedItem() +
+                            "\') WHERE ID_obrazu =" +
+                            arr[0];
+                    z = conn.createStatement().executeUpdate(query);
+                }
+                else {
+                    mc.nullValueDialog();
+                }
                 break;
             case "style_edit":
-                query = "UPDATE style SET Nazwa_stylu =\'" +
-                        a.getText() +
-                        "\' WHERE Id_stylu =" +
-                        arr[0];
+                if (a.getText() != "") {
+                    query = "UPDATE style SET Nazwa_stylu =\'" +
+                            a.getText() +
+                            "\' WHERE Id_stylu =" +
+                            arr[0];
+                    z = conn.createStatement().executeUpdate(query);
+                }
+                else {
+                    mc.nullValueDialog();
+                }
                 break;
             case "wystawa_edit":
+                if (a.getText() != "" && data1.getValue() != null && data2.getValue() != null && combo.getSelectionModel().getSelectedItem() != "") {
                 if (data2.getValue().isAfter(data1.getValue())) {
                     query = "UPDATE wystawa SET Nazwa=\'" +
                             a.getText() +
@@ -280,14 +315,18 @@ public class edit_controller {
                             combo.getSelectionModel().getSelectedItem() +
                             "\') WHERE Id_wystawy =" +
                             arr[0];
-                    break;
-                } else {
-                    main_controller mc = new main_controller();
+                    z = conn.createStatement().executeUpdate(query);
+                }
+                else {
                     mc.date_error_dialog();
                 }
+                }
+                else {
+                    mc.nullValueDialog();
+                }
+                break;
         }
         try {
-            int z = conn.createStatement().executeUpdate(query);
             if (x == "wystawa_edit") {
                 int idWys = Integer.parseInt(arr[0]);
                 prSt = conn.prepareStatement("INSERT INTO wystawa_pom VALUES(" + idWys + ", ?)");
@@ -306,25 +345,17 @@ public class edit_controller {
                     conn.createStatement().executeUpdate("DELETE FROM wystawa_pom WHERE Id_wystawy =" + idWys);
                 prSt.executeBatch();
             }
-            int dia = 0;
-            if (z > 0) dia = 1;
-            dialog(dia);
+            if (z > 0) dialog();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-    public void dialog(int x) {
+    public void dialog() {
         Dialog<String> dialog = new Dialog<>();
-        if(x==1){
-            dialog.setTitle("Success");
-            dialog.setContentText("Operacja powiodła się");
-            grid_pane.getScene().getWindow().hide();
-            bool = true;
-        }
-        else {
-            dialog.setTitle("Failure");
-            dialog.setContentText("Operacja nie powiodła się");
-        }
+        dialog.setTitle("Success");
+        dialog.setContentText("Operacja powiodła się");
+        grid_pane.getScene().getWindow().hide();
+        bool = true;
         ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(type);
         dialog.showAndWait();

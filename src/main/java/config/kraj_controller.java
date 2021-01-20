@@ -33,6 +33,8 @@ public class kraj_controller implements Initializable {
     private TableColumn<kraje, Integer> Id_kraju;
     @FXML
     private TableColumn<kraje, String> Nazwa_kraju;
+    @FXML
+    private MenuItem kraj_menuitem;
 
     private ObservableList<kraje> list;
     private DBConnect dbConnect;
@@ -85,6 +87,9 @@ public class kraj_controller implements Initializable {
                     } catch (IOException | SQLException e) {
                         e.printStackTrace();
                     }
+                }
+                else if (keyEvent.getCode().equals(KeyCode.ADD)) {
+                    kraj_menuitem.fire();
                 }
             }
         });

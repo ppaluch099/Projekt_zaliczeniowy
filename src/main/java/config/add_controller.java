@@ -41,6 +41,7 @@ public class add_controller{
     private String x;
     private ListView<Integer> id = new ListView<>();
     private PreparedStatement prSt;
+    main_controller mc = new main_controller();
 
     UnaryOperator<TextFormatter.Change> nums = change -> {
         String text = change.getText();
@@ -52,7 +53,7 @@ public class add_controller{
 
     UnaryOperator<TextFormatter.Change> text = change -> {
         String text = change.getText();
-        if (text.matches("^[a-zA-Z]*$")) {
+        if (text.matches("^[a-zA-Z .'-]*$")) {
             return change;
         }
         return null;
@@ -146,9 +147,11 @@ public class add_controller{
         grid_pane.add(a,1,0);
         label = new Label("Data rozpoczecia");
         grid_pane.add(label,0,1);
+        data1.setEditable(false);
         grid_pane.add(data1,1,1);
         label = new Label("Data zakonczenia");
         grid_pane.add(label,0,2);
+        data2.setEditable(false);
         grid_pane.add(data2,1,2);
         label = new Label("Galeria ");
         rs = conn.createStatement().executeQuery("SELECT Nazwa_galerii, Miasto FROM adres_wystawy");
@@ -181,37 +184,84 @@ public class add_controller{
 
     @FXML
     public void dodaj() {
+        int z = 0;
         try {
             switch (x){
                 case "artysta_menuitem" :
-                    query = "INSERT INTO artysta(Imie, Nazwisko, Data_ur, Miejsce_ur, Id_stylu)" + " values('" + a.getText() + "','" + b.getText() + "','" + data1.getValue() + "','" + c.getText() + "'," + "(SELECT style.Id_stylu FROM style WHERE style.Nazwa_stylu=\"" + combo.getSelectionModel().getSelectedItem() + "\"))";
-                    refresh = "ALTER TABLE artysta AUTO_INCREMENT=1";break;
-                case "style_menuitem" :
-                    query = "INSERT INTO style(Nazwa_stylu)" + " values('" + a.getText() + "')";
-                    refresh = "ALTER TABLE style AUTO_INCREMENT=1";break;
-                case "adres_menuitem" :
-                    query = "INSERT INTO adres_wystawy(Nazwa_galerii,Miasto,Id_kraju)" + " values('" + a.getText() + "','" + b.getText() + "'," + "(SELECT Id_kraju FROM kraje WHERE Nazwa_kraju=\"" + combo.getSelectionModel().getSelectedItem() + "\"))";
-                    refresh = "ALTER TABLE adres_wystawy AUTO_INCREMENT=1";break;
-                case "kraj_menuitem" :
-                    query = "INSERT INTO kraje(Nazwa_kraju)" + " values('" + a.getText() + "')";
-                    refresh = "ALTER TABLE kraje AUTO_INCREMENT=1";break;
-                case "wystawa_menuitem" :
-                    if (data2.getValue().isAfter(data1.getValue())) {
-                        query = "INSERT INTO wystawa(Nazwa, Data_rozpoczecia,Data_zakonczenia,Id_adresu)" + " values('" + a.getText() + "','" + data1.getValue() + "','" + data2.getValue() + "'," + "(SELECT Id_adresu FROM adres_wystawy WHERE CONCAT(Nazwa_galerii, ' ',Miasto)=\"" + combo.getSelectionModel().getSelectedItem() + "\"))";
-                        refresh = "ALTER TABLE wystawa AUTO_INCREMENT=1";
-                        break;
+                    refresh = "ALTER TABLE artysta AUTO_INCREMENT=1";
+                    if (a.getText() != "" && b.getText() != "" && c.getText() != "" && data1.getValue() != null && combo.getSelectionModel().getSelectedItem() != "") {
+                        query = "INSERT INTO artysta(Imie, Nazwisko, Data_ur, Miejsce_ur, Id_stylu)" + " values('" + a.getText()
+                                + "','" + b.getText() + "','"
+                                + data1.getValue() + "','"
+                                + c.getText() + "',"
+                                + "(SELECT style.Id_stylu FROM style WHERE style.Nazwa_stylu=\"" + combo.getSelectionModel().getSelectedItem() + "\"))";
+                        z = conn.createStatement().executeUpdate(query);
                     }
                     else {
-                        main_controller mc = new main_controller();
-                        mc.date_error_dialog();
+                        mc.nullValueDialog();
+                    }break;
+                case "style_menuitem" :
+                    refresh = "ALTER TABLE style AUTO_INCREMENT=1";
+                    if (a.getText() != "") {
+                        query = "INSERT INTO style(Nazwa_stylu)" + " values('" + a.getText() + "')";
+                        z = conn.createStatement().executeUpdate(query);
                     }
+                    else {
+                        mc.nullValueDialog();
+                    }break;
+                case "adres_menuitem" :
+                    refresh = "ALTER TABLE adres_wystawy AUTO_INCREMENT=1";
+                    if (a.getText() != "" && b.getText() != "" && combo.getSelectionModel().getSelectedItem() != "") {
+                        query = "INSERT INTO adres_wystawy(Nazwa_galerii,Miasto,Id_kraju)" + " values('" + a.getText() + "','"
+                                + b.getText() + "',"
+                                + "(SELECT Id_kraju FROM kraje WHERE Nazwa_kraju=\"" + combo.getSelectionModel().getSelectedItem() + "\"))";
+                        z = conn.createStatement().executeUpdate(query);
+                    }
+                    else {
+                        mc.nullValueDialog();
+                    }break;
+                case "kraj_menuitem" :
+                    refresh = "ALTER TABLE kraje AUTO_INCREMENT=1";
+                    if (a.getText() != "") {
+                        query = "INSERT INTO kraje(Nazwa_kraju)" + " values('" + a.getText() + "')";
+                        System.out.println(a.getText());
+                        z = conn.createStatement().executeUpdate(query);
+                    }
+                    else {
+                        mc.nullValueDialog();
+                    }break;
+                case "wystawa_menuitem" :
+                    refresh = "ALTER TABLE wystawa AUTO_INCREMENT=1";
+                    if (data1.getValue() != null && data2.getValue() != null && a.getText() != "" && combo.getSelectionModel().getSelectedItem() != "") {
+                        if (data2.getValue().isAfter(data1.getValue())) {
+                            query = "INSERT INTO wystawa(Nazwa, Data_rozpoczecia,Data_zakonczenia,Id_adresu)" + " values('" + a.getText() + "','"
+                                    + data1.getValue() + "','"
+                                    + data2.getValue() + "',"
+                                    + "(SELECT Id_adresu FROM adres_wystawy WHERE CONCAT(Nazwa_galerii, ' ',Miasto)=\"" + combo.getSelectionModel().getSelectedItem() + "\"))";
+                            z = conn.createStatement().executeUpdate(query);
+                        }
+                        else {
+                            mc.date_error_dialog();
+                        }
+                    }
+                    else {
+                        mc.nullValueDialog();
+                    }break;
                 case "obrazy_menuitem" :
-                    query = "INSERT INTO obrazy(Rok, Tytul, Opis, Id_artysty)" + " values('" + a.getText() + "','" + b.getText() + "','" + c.getText() + "',(" + "SELECT Id_artysty FROM artysta WHERE CONCAT(Imie, ' ', Nazwisko) = \"" + combo.getSelectionModel().getSelectedItem() +"\"))";
-                    refresh = "ALTER TABLE obrazy AUTO_INCREMENT=1";break;
+                    refresh = "ALTER TABLE obrazy AUTO_INCREMENT=1";
+                    if (a.getText() != "" && b.getText() != "" && c.getText() != "" && combo.getSelectionModel().getSelectedItem() != "") {
+                        query = "INSERT INTO obrazy(Rok, Tytul, Opis, Id_artysty)" + " values('" + a.getText() + "','"
+                                + b.getText() + "','"
+                                + c.getText() + "',"
+                                + "(SELECT Id_artysty FROM artysta WHERE CONCAT(Imie, ' ', Nazwisko) = \"" + combo.getSelectionModel().getSelectedItem() + "\"))";
+                        z = conn.createStatement().executeUpdate(query);
+                    }
+                    else {
+                        mc.nullValueDialog();
+                    }break;
             }
             conn.createStatement().executeUpdate(refresh);
-            int z = conn.createStatement().executeUpdate(query);
-            if (x=="wystawa_menuitem") {
+            if (x=="wystawa_menuitem" && z>0) {
                 ResultSet idWys = conn.createStatement().executeQuery("SELECT Id_wystawy FROM wystawa WHERE Nazwa=\"" + a.getText() + "\"");
                 int wynik = 0;
                 while (idWys.next()) {
@@ -230,25 +280,17 @@ public class add_controller{
                 });
                 prSt.executeBatch();
             }
-            int dia = 0;
-            if(z>0) dia=1;
-            dialog(dia);
+            if(z>0) dialog();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-    private void dialog(int z) {
+    private void dialog() {
         Dialog<String> dialog = new Dialog<>();
-        if(z==1){
-            dialog.setTitle("Success");
-            dialog.setContentText("Operacja powiodła się");
-            grid_pane.getScene().getWindow().hide();
-            bool = true;
-        }
-        else {
-            dialog.setTitle("Failure");
-            dialog.setContentText("Operacja nie powiodła się");
-        }
+        dialog.setTitle("Success");
+        dialog.setContentText("Operacja powiodła się");
+        grid_pane.getScene().getWindow().hide();
+        bool = true;
         ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().add(type);
         dialog.showAndWait();

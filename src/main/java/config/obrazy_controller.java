@@ -39,6 +39,8 @@ public class obrazy_controller implements Initializable {
     private TableColumn<obrazy,String> Opis;
     @FXML
     private TableColumn<artysta,String> Imie_Nazwisko;
+    @FXML
+    private MenuItem obrazy_menuitem;
 
     private ObservableList<obrazy> list;
     private DBConnect dbConnect;
@@ -121,6 +123,9 @@ public class obrazy_controller implements Initializable {
                     } catch (IOException | SQLException e) {
                         e.printStackTrace();
                     }
+                }
+                else if (keyEvent.getCode().equals(KeyCode.ADD)) {
+                    obrazy_menuitem.fire();
                 }
             }
         });

@@ -37,6 +37,8 @@ public class adres_controller implements Initializable {
     private TableColumn<adres, String> Miasto;
     @FXML
     private TableColumn<kraje, String> Nazwa_kraju;
+    @FXML
+    private MenuItem adres_menuitem;
 
     private ObservableList<adres> list;
     private DBConnect dbConnect;
@@ -90,9 +92,13 @@ public class adres_controller implements Initializable {
                 if (keyEvent.getCode().equals(KeyCode.DELETE)) {
                     try {
                         delete();
-                    } catch (IOException | SQLException e) {
-                        e.printStackTrace();
+                        System.out.println(keyEvent);
+                    } catch (IOException | SQLException throwables) {
+                        throwables.printStackTrace();
                     }
+                }
+                else if (keyEvent.getCode().equals(KeyCode.ADD)) {
+                    adres_menuitem.fire();
                 }
             }
         });

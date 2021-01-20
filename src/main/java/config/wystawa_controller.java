@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
@@ -38,6 +39,8 @@ public class wystawa_controller implements Initializable {
     private TableColumn<adres,String> Nazwa_galerii;
     @FXML
     private TableColumn<obrazy, String> Tytul;
+    @FXML
+    private MenuItem wystawa_menuitem;
 
     private ObservableList<wystawa> list;
     private DBConnect dbConnect;
@@ -79,6 +82,7 @@ public class wystawa_controller implements Initializable {
                     wys.getTytul().getItems().addAll(obrazy.getString("Tytul"));
                 }
                 wys.getTytul().getSelectionModel().selectFirst();
+                wys.getTytul().setPrefWidth(200);
                 if(wys.getTytul().getSelectionModel().isEmpty()){
                     wys.getTytul().setVisible(false);
                 }
@@ -115,6 +119,9 @@ public class wystawa_controller implements Initializable {
                     } catch (IOException | SQLException e) {
                         e.printStackTrace();
                     }
+                }
+                else if (keyEvent.getCode().equals(KeyCode.ADD)) {
+                    wystawa_menuitem.fire();
                 }
             }
         });
