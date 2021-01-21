@@ -40,12 +40,13 @@ public class wystawa_controller implements Initializable {
     @FXML
     private TableColumn<obrazy, String> Tytul;
     @FXML
-    private MenuItem wystawa_menuitem;
+    private Button wy_add;
 
     private ObservableList<wystawa> list;
     private DBConnect dbConnect;
     private Connection conn;
     main_controller mc = new main_controller();
+    add_controller ad = new add_controller();
     edit_controller ec = new edit_controller();
 
     private static ArrayList ar;
@@ -121,7 +122,7 @@ public class wystawa_controller implements Initializable {
                     }
                 }
                 else if (keyEvent.getCode().equals(KeyCode.ADD)) {
-                    wystawa_menuitem.fire();
+                    wy_add.fire();
                 }
             }
         });
@@ -130,8 +131,6 @@ public class wystawa_controller implements Initializable {
     Timeline time;
 
     public void add(ActionEvent actionEvent) throws IOException, SQLException {
-        main_controller mc = new main_controller();
-        add_controller ad = new add_controller();
         mc.add(actionEvent);
         time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
@@ -171,7 +170,6 @@ public class wystawa_controller implements Initializable {
 
     ObservableList o;
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
-        main_controller mc = new main_controller();
         if (!ExhibitionsFX.getSelectionModel().getSelectedItems().isEmpty()) {
             String[] arr = {String.valueOf(ExhibitionsFX.getSelectionModel().getSelectedItem().getId_wystawy()),
                             String.valueOf(ExhibitionsFX.getSelectionModel().getSelectedItem().getNazwa()),

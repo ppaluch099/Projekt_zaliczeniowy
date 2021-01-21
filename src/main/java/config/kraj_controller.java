@@ -34,11 +34,14 @@ public class kraj_controller implements Initializable {
     @FXML
     private TableColumn<kraje, String> Nazwa_kraju;
     @FXML
-    private MenuItem kraj_menuitem;
+    private Button kr_add;
 
     private ObservableList<kraje> list;
     private DBConnect dbConnect;
     private Connection conn;
+    main_controller mc = new main_controller();
+    add_controller ad = new add_controller();
+    edit_controller ec = new edit_controller();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -89,7 +92,7 @@ public class kraj_controller implements Initializable {
                     }
                 }
                 else if (keyEvent.getCode().equals(KeyCode.ADD)) {
-                    kraj_menuitem.fire();
+                    kr_add.fire();
                 }
             }
         });
@@ -98,8 +101,6 @@ public class kraj_controller implements Initializable {
     Timeline time;
 
     public void add(ActionEvent actionEvent) throws IOException, SQLException {
-        main_controller mc = new main_controller();
-        add_controller ad = new add_controller();
         mc.add(actionEvent);
         time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
@@ -134,14 +135,11 @@ public class kraj_controller implements Initializable {
                 conn.createStatement().executeUpdate(refresh);
         }
         else {
-            main_controller mc = new main_controller();
             mc.empty_row_dialog();
         }
     }
 
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
-        main_controller mc = new main_controller();
-        edit_controller ec = new edit_controller();
         if(!KrajFX.getSelectionModel().getSelectedItems().isEmpty()) {
             String[] arr = {String.valueOf(KrajFX.getSelectionModel().getSelectedItem().getId_kraju()),
                             String.valueOf(KrajFX.getSelectionModel().getSelectedItem().getNazwa_kraju())};
@@ -167,5 +165,4 @@ public class kraj_controller implements Initializable {
         list.clear();
         populate();
     }
-
 }

@@ -72,16 +72,10 @@
     -fx-background-color: #1d1d1d;
     -fx-text-fill: #ffff00;
 }
-.combo-box .list-view .list-cell:selected, #anchor .list-view .list-cell:selected {
+.combo-box .list-view .list-cell:selected, #anchor .list-view .list-cell:selected, .date-picker-popup .day-cell:hover {
     -fx-background-color: #005797;
     -fx-background-insets: 0;
     -fx-background-radius: 1;
-}
-.context-menu {
-    -fx-background-color: #3c3c3c;
-}
-.context-menu {
-    -fx-background-color: #1d1d1d;
 }
 .menu-item .label{
     -fx-text-fill: #ffff00;
@@ -90,14 +84,10 @@
     -fx-text-fill: #ffff00;
     -fx-text-alignment: center;
 }
-#anchor .text-field, #anchor .list-view:focused {
-    -fx-background-color: #1d1d1d;
-    -fx-text-fill: #ffff00;
-}
 #anchor .combo-box {
     -fx-background-color: #1d1d1d;
 }
-#anchor .combo-box .list-cell {
+#anchor .combo-box .list-cell, #anchor .text-field, #anchor .list-view:focused  {
     -fx-background-color: #1d1d1d;
     -fx-text-fill: #ffff00;
 }
@@ -127,11 +117,6 @@
 .date-picker-popup .today {
     -fx-background-color: #111111;
 }
-.date-picker-popup .day-cell:hover {
-    -fx-background-color: #005797;
-    -fx-background-insets: 0;
-    -fx-background-radius: 1;
-}
 .date-picker-popup .day-name-cell, .date-picker-popup .week-number-cell {
     -fx-background-color: #111111;
     -fx-text-fill: #00aaff;
@@ -144,4 +129,25 @@
 }
 .date-picker .arrow-button {
     -fx-background-color:  linear-gradient(#131313 0%, #626262 100%);
+}
+#ad_add, #ar_add, #kr_add, #ob_add, #st_add, #wy_add {
+    -fx-background-image: url("/CSS/Images/add.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+#ad_del, #ar_del, #kr_del, #ob_del, #st_del, #wy_del {
+    -fx-background-image: url("/CSS/Images/del.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+#ad_edit, #ar_edit, #kr_edit, #ob_edit, #st_edit, #wy_edit {
+    -fx-background-image: url("/CSS/Images/edit.png");
+    -fx-background-size: 50px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+}
+#ap {
+    -fx-background-color: #3c3c3c;
 }

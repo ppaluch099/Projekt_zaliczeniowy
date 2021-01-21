@@ -40,11 +40,14 @@ public class artysta_controller implements Initializable {
     @FXML
     private TableColumn<style,String> Nazwa_stylu;
     @FXML
-    private MenuItem artysta_menuitem;
+    private Button ar_add;
 
     private ObservableList<artysta> list;
     private DBConnect dbConnect;
     private Connection conn;
+    main_controller mc = new main_controller();
+    add_controller ad = new add_controller();
+    edit_controller ec = new edit_controller();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -114,7 +117,7 @@ public class artysta_controller implements Initializable {
                     }
                 }
                 else if (keyEvent.getCode().equals(KeyCode.ADD)) {
-                    artysta_menuitem.fire();
+                    ar_add.fire();
                 }
             }
         });
@@ -123,8 +126,6 @@ public class artysta_controller implements Initializable {
     Timeline time;
 
     public void add(ActionEvent actionEvent) throws IOException, SQLException{
-        main_controller mc = new main_controller();
-        add_controller ad = new add_controller();
         mc.add(actionEvent);
         time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
@@ -158,14 +159,11 @@ public class artysta_controller implements Initializable {
             String refresh = "ALTER TABLE artysta AUTO_INCREMENT=1";
             conn.createStatement().executeUpdate(refresh);
         } else {
-            main_controller mc = new main_controller();
             mc.empty_row_dialog();
         }
     }
 
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
-        main_controller mc = new main_controller();
-        edit_controller ec = new edit_controller();
         if(!ArtistsFX.getSelectionModel().getSelectedItems().isEmpty()) {
             String[] arr = {String.valueOf(ArtistsFX.getSelectionModel().getSelectedItem().getId_artysty()),
                             String.valueOf(ArtistsFX.getSelectionModel().getSelectedItem().getImie()),
@@ -195,4 +193,5 @@ public class artysta_controller implements Initializable {
         list.clear();
         populate();
     }
+
 }

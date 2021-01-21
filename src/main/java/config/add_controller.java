@@ -224,7 +224,6 @@ public class add_controller{
                     refresh = "ALTER TABLE kraje AUTO_INCREMENT=1";
                     if (a.getText() != "") {
                         query = "INSERT INTO kraje(Nazwa_kraju)" + " values('" + a.getText() + "')";
-                        System.out.println(a.getText());
                         z = conn.createStatement().executeUpdate(query);
                     }
                     else {

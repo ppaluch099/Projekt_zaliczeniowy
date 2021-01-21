@@ -40,11 +40,14 @@ public class obrazy_controller implements Initializable {
     @FXML
     private TableColumn<artysta,String> Imie_Nazwisko;
     @FXML
-    private MenuItem obrazy_menuitem;
+    private Button ob_add;
 
     private ObservableList<obrazy> list;
     private DBConnect dbConnect;
     private Connection conn;
+    main_controller mc = new main_controller();
+    add_controller ad = new add_controller();
+    edit_controller ec = new edit_controller();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -125,7 +128,7 @@ public class obrazy_controller implements Initializable {
                     }
                 }
                 else if (keyEvent.getCode().equals(KeyCode.ADD)) {
-                    obrazy_menuitem.fire();
+                    ob_add.fire();
                 }
             }
         });
@@ -134,8 +137,6 @@ public class obrazy_controller implements Initializable {
     Timeline time;
 
     public void add(ActionEvent actionEvent) throws IOException,SQLException {
-        main_controller mc = new main_controller();
-        add_controller ad = new add_controller();
         mc.add(actionEvent);
         time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
@@ -171,14 +172,11 @@ public class obrazy_controller implements Initializable {
             conn.createStatement().executeUpdate(refresh);
         }
         else {
-            main_controller mc = new main_controller();
             mc.empty_row_dialog();
         }
     }
 
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
-        main_controller mc = new main_controller();
-        edit_controller ec = new edit_controller();
         if(!PaintingsFX.getSelectionModel().getSelectedItems().isEmpty()) {
             String[] arr = {String.valueOf(PaintingsFX.getSelectionModel().getSelectedItem().getId_obrazu()),
                             String.valueOf(PaintingsFX.getSelectionModel().getSelectedItem().getRok()),

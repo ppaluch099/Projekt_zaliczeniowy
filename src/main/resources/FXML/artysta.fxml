@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 <AnchorPane stylesheets="/CSS/style.css" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.artysta_controller">
     <children>
         <TableView fx:id="ArtistsFX" prefHeight="400.0" prefWidth="1000.0">
@@ -20,15 +22,13 @@
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
-            <contextMenu>
-                <ContextMenu>
-                    <items>
-                        <MenuItem fx:id="artysta_menuitem" mnemonicParsing="false" onAction="#add" text="Dodaj" />
-                        <MenuItem fx:id="delete" mnemonicParsing="false" onAction="#delete" text="Usuń" />
-                        <MenuItem fx:id="artysta_edit" mnemonicParsing="false" onAction="#edit" text="Edytuj" />
-                    </items>
-                </ContextMenu>
-            </contextMenu>
         </TableView>
+        <HBox layoutY="401.0" prefHeight="75.0" prefWidth="1000.0">
+            <children>
+                <Button fx:id="ar_add" mnemonicParsing="false" onAction="#add" prefHeight="75" prefWidth="333" HBox.hgrow="ALWAYS" />
+                <Button fx:id="ar_edit" mnemonicParsing="false" onAction="#edit" prefHeight="75" prefWidth="333" HBox.hgrow="ALWAYS" />
+                <Button fx:id="ar_del" mnemonicParsing="false" onAction="#delete" prefHeight="75" prefWidth="333"  HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
     </children>
 </AnchorPane>

@@ -32,11 +32,14 @@ public class style_controller implements Initializable {
     @FXML
     private TableColumn<style,String> Nazwa_stylu;
     @FXML
-    private MenuItem style_menuitem;
+    private Button st_add;
 
     private ObservableList<style> list;
     private DBConnect dbConnect;
     private Connection conn;
+    main_controller mc = new main_controller();
+    add_controller ad = new add_controller();
+    edit_controller ec = new edit_controller();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -87,7 +90,7 @@ public class style_controller implements Initializable {
                     }
                 }
                 else if (keyEvent.getCode().equals(KeyCode.ADD)) {
-                    style_menuitem.fire();
+                    st_add.fire();
                 }
             }
         });
@@ -96,8 +99,6 @@ public class style_controller implements Initializable {
     Timeline time;
 
     public void add(ActionEvent actionEvent) throws IOException, SQLException {
-        main_controller mc = new main_controller();
-        add_controller ad = new add_controller();
         mc.add(actionEvent);
         time = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
@@ -133,14 +134,11 @@ public class style_controller implements Initializable {
             conn.createStatement().executeUpdate(refresh);
         }
         else {
-            main_controller mc = new main_controller();
             mc.empty_row_dialog();
         }
     }
 
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
-        main_controller mc = new main_controller();
-        edit_controller ec = new edit_controller();
         if(!StyleFX.getSelectionModel().getSelectedItems().isEmpty()) {
             String[] arr = {String.valueOf(StyleFX.getSelectionModel().getSelectedItem().getId_stylu()),
                             String.valueOf(StyleFX.getSelectionModel().getSelectedItem().getNazwa_stylu())};
