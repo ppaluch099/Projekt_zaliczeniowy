@@ -8,9 +8,9 @@
 
 <AnchorPane fx:id="anchor" prefHeight="400.0" prefWidth="1000.0" stylesheets="/CSS/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.edit_controller">
    <children>
-      <GridPane fx:id="grid_pane" prefHeight="367.0" prefWidth="1000.0">
+      <GridPane fx:id="grid_pane" prefHeight="367.0" prefWidth="1000.0" hgap="20">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="300" minWidth="0.0" prefWidth="171.199951171875" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="300" minWidth="0.0" prefWidth="171.199951171875" halignment="RIGHT"/>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="428.800048828125" />
         </columnConstraints>
         <rowConstraints>

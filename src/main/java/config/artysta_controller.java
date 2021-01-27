@@ -41,7 +41,10 @@ public class artysta_controller implements Initializable {
     private TableColumn<style,String> Nazwa_stylu;
     @FXML
     private Button ar_add;
-
+    @FXML
+    private Button ar_edit;
+    @FXML
+    private Button ar_del;
     private ObservableList<artysta> list;
     private DBConnect dbConnect;
     private Connection conn;
@@ -106,6 +109,14 @@ public class artysta_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        Tooltip t = new Tooltip("Dodaj");
+        ar_add.setTooltip(t);
+        t = new Tooltip("Edytuj");
+        ar_edit.setTooltip(t);
+        t  = new Tooltip("Usuń");
+        ar_del.setTooltip(t);
+
         ArtistsFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {

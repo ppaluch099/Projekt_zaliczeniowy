@@ -7,15 +7,15 @@
 
 <AnchorPane stylesheets="/CSS/style.css" fx:id="ap" prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="config.main_controller">
     <children>
-        <Pane fx:id="view" layoutY="26.0" prefHeight="400.0" prefWidth="1000.0"/>
-      <HBox fx:id="main_hbox" prefHeight="25.0" prefWidth="1000.0">
+        <Pane fx:id="view" layoutY="51.0" prefHeight="400.0" prefWidth="1000.0"/>
+      <HBox fx:id="main_hbox" prefHeight="50.0" prefWidth="1000.0">
          <children>
-            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Address_menu" prefHeight="25.0" snapToPixel="false" text="Adresy" HBox.hgrow="ALWAYS" />
-            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Artists_menu" prefHeight="25.0" text="Artyści" HBox.hgrow="ALWAYS" />
-            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Country_menu" prefHeight="25.0" text="Kraje" HBox.hgrow="ALWAYS" />
-            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Paintings_menu" prefHeight="25.0" text="Obrazy" HBox.hgrow="ALWAYS" />
-            <Button maxWidth="Infinity" minWidth="62.0" mnemonicParsing="false" onAction="#Style_menu" prefHeight="25.0" text="Style" HBox.hgrow="ALWAYS" />
-            <Button maxWidth="Infinity" minWidth="20.0" mnemonicParsing="false" onAction="#Exhibitions_menu" prefHeight="25.0" snapToPixel="false" text="Wystawy" HBox.hgrow="ALWAYS" />
+            <Button fx:id="menu" maxWidth="Infinity" mnemonicParsing="false" onAction="#Address_menu" prefHeight="50.0" snapToPixel="false" text="ADRESY" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Artists_menu" prefHeight="50.0" text="ARTYŚCI" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Country_menu" prefHeight="50.0" text="KRAJE" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" mnemonicParsing="false" onAction="#Paintings_menu" prefHeight="50.0" text="OBRAZY" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" minWidth="62.0" mnemonicParsing="false" onAction="#Style_menu" prefHeight="50.0" text="STYLE" HBox.hgrow="ALWAYS" />
+            <Button maxWidth="Infinity" minWidth="20.0" mnemonicParsing="false" onAction="#Exhibitions_menu" prefHeight="50.0" snapToPixel="false" text="WYSTAWY" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
     </children>

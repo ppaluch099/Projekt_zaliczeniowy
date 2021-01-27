@@ -41,6 +41,10 @@ public class wystawa_controller implements Initializable {
     private TableColumn<obrazy, String> Tytul;
     @FXML
     private Button wy_add;
+    @FXML
+    private Button wy_edit;
+    @FXML
+    private Button wy_del;
 
     private ObservableList<wystawa> list;
     private DBConnect dbConnect;
@@ -111,6 +115,14 @@ public class wystawa_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        Tooltip t = new Tooltip("Dodaj");
+        wy_add.setTooltip(t);
+        t = new Tooltip("Edytuj");
+        wy_edit.setTooltip(t);
+        t  = new Tooltip("Usuń");
+        wy_del.setTooltip(t);
+
         ExhibitionsFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
@@ -168,7 +180,6 @@ public class wystawa_controller implements Initializable {
         }
     }
 
-    ObservableList o;
     public void edit(ActionEvent actionEvent) throws IOException, SQLException {
         if (!ExhibitionsFX.getSelectionModel().getSelectedItems().isEmpty()) {
             String[] arr = {String.valueOf(ExhibitionsFX.getSelectionModel().getSelectedItem().getId_wystawy()),

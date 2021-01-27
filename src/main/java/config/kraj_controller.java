@@ -35,6 +35,10 @@ public class kraj_controller implements Initializable {
     private TableColumn<kraje, String> Nazwa_kraju;
     @FXML
     private Button kr_add;
+    @FXML
+    private Button kr_edit;
+    @FXML
+    private Button kr_del;
 
     private ObservableList<kraje> list;
     private DBConnect dbConnect;
@@ -81,6 +85,14 @@ public class kraj_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        Tooltip t = new Tooltip("Dodaj");
+        kr_add.setTooltip(t);
+        t = new Tooltip("Edytuj");
+        kr_edit.setTooltip(t);
+        t  = new Tooltip("Usuń");
+        kr_del.setTooltip(t);
+
         KrajFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {

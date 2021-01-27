@@ -176,6 +176,7 @@ public class add_controller{
                 id.getSelectionModel().select(z);
             }
         });
+
         grid_pane.add(label,0,4);
         grid_pane.add(listView,1,4);
         x = "wystawa_menuitem";

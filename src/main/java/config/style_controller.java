@@ -33,6 +33,10 @@ public class style_controller implements Initializable {
     private TableColumn<style,String> Nazwa_stylu;
     @FXML
     private Button st_add;
+    @FXML
+    private Button st_edit;
+    @FXML
+    private Button st_del;
 
     private ObservableList<style> list;
     private DBConnect dbConnect;
@@ -79,6 +83,14 @@ public class style_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        Tooltip t = new Tooltip("Dodaj");
+        st_add.setTooltip(t);
+        t = new Tooltip("Edytuj");
+        st_edit.setTooltip(t);
+        t  = new Tooltip("Usuń");
+        st_del.setTooltip(t);
+
         StyleFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {

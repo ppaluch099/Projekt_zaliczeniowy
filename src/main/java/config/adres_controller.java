@@ -39,6 +39,10 @@ public class adres_controller implements Initializable {
     private TableColumn<kraje, String> Nazwa_kraju;
     @FXML
     private Button ad_add;
+    @FXML
+    private Button ad_edit;
+    @FXML
+    private Button ad_del;
 
     private ObservableList<adres> list;
     private DBConnect dbConnect;
@@ -89,6 +93,14 @@ public class adres_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        Tooltip t = new Tooltip("Dodaj");
+        ad_add.setTooltip(t);
+        t = new Tooltip("Edytuj");
+        ad_edit.setTooltip(t);
+        t  = new Tooltip("Usuń");
+        ad_del.setTooltip(t);
+
         AddressFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {

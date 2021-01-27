@@ -41,6 +41,10 @@ public class obrazy_controller implements Initializable {
     private TableColumn<artysta,String> Imie_Nazwisko;
     @FXML
     private Button ob_add;
+    @FXML
+    private Button ob_edit;
+    @FXML
+    private Button ob_del;
 
     private ObservableList<obrazy> list;
     private DBConnect dbConnect;
@@ -96,7 +100,7 @@ public class obrazy_controller implements Initializable {
                 TableCell<obrazy, String> cell = opisCellFactory.call(c);
 
                 Tooltip tooltip = new Tooltip();
-                if (tooltip != null) {
+                if (cell.itemProperty().asString() != null) {
                     tooltip.textProperty().bind(cell.itemProperty().asString());
                     cell.setTooltip(tooltip);
                 }
@@ -108,7 +112,7 @@ public class obrazy_controller implements Initializable {
                 TableCell<artysta, String> cell = imie_nazwiskoCellFactory.call(c);
 
                 Tooltip tooltip = new Tooltip();
-                if (tooltip != null) {
+                if (cell.itemProperty().asString() != null) {
                     tooltip.textProperty().bind(cell.itemProperty().asString());
                     cell.setTooltip(tooltip);
                 }
@@ -117,6 +121,14 @@ public class obrazy_controller implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        Tooltip t = new Tooltip("Dodaj");
+        ob_add.setTooltip(t);
+        t = new Tooltip("Edytuj");
+        ob_edit.setTooltip(t);
+        t  = new Tooltip("Usuń");
+        ob_del.setTooltip(t);
+
         PaintingsFX.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
